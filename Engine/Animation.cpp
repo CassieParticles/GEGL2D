@@ -4,7 +4,7 @@
 
 #include "Program.h"
 
-Animation::Animation(const std::string& spriteSheetPath, int frameCount,Program* animationProgram):frameCount{frameCount},animationProgram{animationProgram}
+Animation::Animation(const std::string& spriteSheetPath, int frameCount,Program* animationProgram, bool looping):frameCount{frameCount},animationProgram{animationProgram},looping{looping}
 {
 	spriteSheet = TextureManager::getTexturePtr(spriteSheetPath);
 
@@ -32,15 +32,17 @@ Animation::~Animation()
 void Animation::update(float deltaTime)
 {
 	sumTime += deltaTime;
-	while (sumTime > frameTime * frameCount)
+	while (sumTime > frameTime * frameCount && looping)
 	{
 		sumTime -= frameTime * frameCount;
 	}
+	ended = sumTime > frameTime * frameCount && !looping;
 }
 
 void Animation::reset()
 {
 	sumTime = 0;
+	ended = false;
 }
 
 void Animation::setCurrentFrame()

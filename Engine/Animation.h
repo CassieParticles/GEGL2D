@@ -19,7 +19,7 @@ struct frame
 class Animation
 {
 public:
-	Animation(const std::string& spriteSheetPath, int frameCount, Program* animationProgram);
+	Animation(const std::string& spriteSheetPath, int frameCount, Program* animationProgram, bool looping);
 	~Animation();
 
 	void setFrameTime(float frameTime) { this->frameTime = frameTime; }	//Set the time in seconds it takes to change frame
@@ -28,6 +28,8 @@ public:
 
 	void reset();
 
+	bool getFinished() { return ended; }
+	
 	void setCurrentFrame();	//Gets the current frame of animation, packed into a 4x2 matrix so it can be passed in as a matrix
 
 	bool getFlipped() { return flipped; }
@@ -40,6 +42,9 @@ protected:
 	float sumTime{};
 
 	float frameTime{1};
+
+	bool looping{};
+	bool ended{};
 
 	Program* animationProgram;
 
