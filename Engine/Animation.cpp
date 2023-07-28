@@ -38,6 +38,11 @@ void Animation::update(float deltaTime)
 	}
 }
 
+void Animation::reset()
+{
+	sumTime = 0;
+}
+
 void Animation::setCurrentFrame()
 {
 	int cFrame = sumTime / frameTime;	//Get the index of which frame

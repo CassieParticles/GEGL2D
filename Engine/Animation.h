@@ -26,6 +26,8 @@ public:
 
 	void update(float deltaTime);
 
+	void reset();
+
 	void setCurrentFrame();	//Gets the current frame of animation, packed into a 4x2 matrix so it can be passed in as a matrix
 
 	bool getFlipped() { return flipped; }
