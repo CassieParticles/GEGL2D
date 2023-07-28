@@ -1,6 +1,7 @@
 #include "Animation.h"
 
 #include <glad/glad.h>
+#include <algorithm>
 
 #include "Program.h"
 
@@ -48,7 +49,7 @@ void Animation::reset()
 void Animation::setCurrentFrame()
 {
 	int cFrame = sumTime / frameTime;	//Get the index of which frame
-	frame f = frames.at(cFrame);
+	frame f = frames.at(std::max(cFrame,static_cast<int>(frames.size()-1)));
 	
 	animationProgram->setVec2("texCoords[0]", f.tl);		//Uniform should always be called "texCoords" in shaders
 	animationProgram->setVec2("texCoords[1]", f.tr);
