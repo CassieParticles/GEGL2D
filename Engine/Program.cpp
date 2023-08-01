@@ -1,4 +1,9 @@
 #include "Program.h"
+#include "Program.h"
+#include "Program.h"
+#include "Program.h"
+#include "Program.h"
+#include "Program.h"
 
 #include <glad/glad.h>
 #include <string>
@@ -6,23 +11,45 @@
 #include <sstream>
 #include <iostream>
 
-Program::Program(const std::string* shaderPaths, int* shaderTypes, int shaderCount)
+Program::Program(const std::string* shaderPaths, int* shaderTypes, int shaderCount, inputTypes type)
 {
-	init(shaderPaths,shaderTypes,shaderCount);
+	if (type == filePath)
+	{
+		initFile(shaderPaths, shaderTypes, shaderCount);
+	}
+	else
+	{
+		initCode(shaderPaths, shaderTypes, shaderCount);
+	}
+	
 }
 
-Program::Program(const std::string& vertPath, const std::string& fragPath)	
+Program::Program(const std::string& vertPath, const std::string& fragPath, inputTypes type)	
 {
 	std::string shaderPaths[2]{vertPath,fragPath};	//Create arrays for the shader paths and types, then call init function
 	int shaderTypes[2]{ GL_VERTEX_SHADER,GL_FRAGMENT_SHADER };
-	init(shaderPaths, shaderTypes, 2);
+	if (type == filePath)
+	{
+		initFile(shaderPaths, shaderTypes, 2);
+	}
+	else
+	{
+		initCode(shaderPaths, shaderTypes, 2);
+	}
 }
 
-Program::Program(const std::string& vertPath, const std::string& geomPath, const std::string& fragPath)
+Program::Program(const std::string& vertPath, const std::string& geomPath, const std::string& fragPath, inputTypes type)
 {
 	std::string shaderPaths[3]{ vertPath,geomPath,fragPath };	//Create arrays for the shader paths and types, then call init function
 	int shaderTypes[3]{ GL_VERTEX_SHADER,GL_GEOMETRY_SHADER,GL_FRAGMENT_SHADER };
-	init(shaderPaths, shaderTypes, 3);
+	if (type == filePath)
+	{
+		initFile(shaderPaths, shaderTypes, 3);
+	}
+	else
+	{
+		initCode(shaderPaths,shaderTypes, 3);
+	}
 }
 
 Program::~Program()
@@ -39,14 +66,14 @@ Program::~Program()
 	shaderIDs = nullptr;
 }
 
-void Program::init(const std::string* shaderPaths, int* shaderTypes, int shaderCount)
+void Program::initFile(const std::string* shaderPaths, int* shaderTypes, int shaderCount)
 {
 	programID = glCreateProgram();	//Create the program
 	shaderIDs = new unsigned int[shaderCount];
 
 	for (int i = 0; i < shaderCount; i++)	//Generate the shaders given
 	{
-		shaderIDs[i] = generateShader(shaderPaths[i], shaderTypes[i]);
+		shaderIDs[i] = generateShaderFile(shaderPaths[i], shaderTypes[i]);
 	}
 
 	this->shaderCount = shaderCount;
@@ -54,8 +81,22 @@ void Program::init(const std::string* shaderPaths, int* shaderTypes, int shaderC
 	linkShaders();	//Link the shaders to the program object 
 }
 
+void Program::initCode(const std::string* shaderCode, int* shaderTypes, int shaderCount)
+{
+	programID = glCreateProgram();
+	shaderIDs = new unsigned int[shaderCount];
+	for (int i = 0; i < shaderCount; i++)
+	{
+		shaderIDs[i] = generateShaderCode(shaderCode[i], shaderTypes[i]);
+	}
+
+	this->shaderCount = shaderCount;
+
+	linkShaders();
+}
+
 //Generate and compile a shader object from a file
-unsigned int Program::generateShader(const std::string& shaderDir, int shaderType)
+unsigned int Program::generateShaderFile(const std::string& shaderDir, int shaderType)
 {
 	unsigned int shaderID;	//Initialise variables for shader and the shader code
 
@@ -83,12 +124,19 @@ unsigned int Program::generateShader(const std::string& shaderDir, int shaderTyp
 
 	const char* shaderCode = shaderString.c_str();	//Get the shader code as a character array
 
-	shaderID = glCreateShader(shaderType);	//Create the shader object
+	return generateShaderCode(shaderCode, shaderType);
+}
 
-	glShaderSource(shaderID, 1, &shaderCode, NULL);	//Load the shader code into the shader object and compile
+unsigned int Program::generateShaderCode(const std::string& shaderCode, int shaderType)
+{
+	unsigned int shaderID = glCreateShader(shaderType);
+
+	const char* cCode = shaderCode.c_str();
+
+	glShaderSource(shaderID, 1, &cCode, NULL);
 	glCompileShader(shaderID);
 
-	int success{};	//Get if the compilation worked, or print the error if there is one
+	int success{};
 
 	char infoLog[1024];
 	glGetShaderiv(shaderID, GL_COMPILE_STATUS, &success);

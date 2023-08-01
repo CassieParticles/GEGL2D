@@ -1,0 +1,26 @@
+GUI Manager
+	std::vector<GUI>
+
+	createGUIFunctions-returns pointer to GUI created
+
+	drawGUI - Goes through all GUI and draws it to a texture
+	getTexture - Returns texture
+
+GUI class
+	Position
+	Size
+	Program*
+	GLFWwindow*
+	visible
+
+Solid colour box
+	Colour
+Texture box
+	Texture
+
+Font
+Text
+
+Button
+Toggle button
+Text box

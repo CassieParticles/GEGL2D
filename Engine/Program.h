@@ -6,13 +6,20 @@
 class Program
 {
 public:
+
+	enum inputTypes
+	{
+		filePath,
+		sourceCodes
+	};
+
 	//General case for 
-	Program(const std::string* shaderPaths, int* shaderTypes, int shaderCount);	
+	Program(const std::string* shaderPaths, int* shaderTypes, int shaderCount, inputTypes type);	
 
 
 	//Common cases, uses first constructor, but makes writing easier
-	Program(const std::string& vertPath, const std::string& fragPath);	
-	Program(const std::string& vertPath, const std::string& geomPath, const std::string& fragPath);
+	Program(const std::string& vertPath, const std::string& fragPath, inputTypes type);	
+	Program(const std::string& vertPath, const std::string& geomPath, const std::string& fragPath, inputTypes type);
 
 	~Program();
 
@@ -33,10 +40,13 @@ private:
 	unsigned int* shaderIDs;//IDs of all shaders within the program, as well as the number of shaders
 	int shaderCount;
 
-	void init(const std::string* shaderPaths, int* shaderTypes, int shaderCount);	//Set up the program (cannot call one function from another function)
+	void initFile(const std::string* shaderPaths, int* shaderTypes, int shaderCount);	//Set up the program (cannot call one function from another function)
+
+	void initCode(const std::string* shaderCode, int* shaderTypes, int shaderCount);	//Set up program using shader code directly
 
 	//Compile a shader at the given file location and return the ID of the generated shader
-	unsigned int generateShader(const std::string& shaderDir, int shaderType);	
+	unsigned int generateShaderFile(const std::string& shaderDir, int shaderType);	
+	unsigned int generateShaderCode(const std::string& shaderCode, int shaderType);
 
 	//Link all shaders together into the program, returns if shaders were linked successfully
 	bool linkShaders();
