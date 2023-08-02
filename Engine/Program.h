@@ -10,7 +10,7 @@ public:
 	enum inputTypes
 	{
 		filePath,
-		sourceCodes
+		sourceCode
 	};
 
 	//General case for 

@@ -7,7 +7,10 @@ list(APPEND ENGINESOURCES "Engine/Program.cpp" "Engine/Program.h")
 list(APPEND ENGINESOURCES "Engine/TextureManager.cpp" "Engine/TextureManager.h")
 list(APPEND ENGINESOURCES "Engine/Timer.cpp" "Engine/Timer.h")
 
-add_library(GEGL2D ${ENGINESOURCES})
+list(APPEND GUISOURCES "Engine/GUI/GUIBase.cpp" "Engine/GUI/GUIBase.h")					#Add the files for the GUI
+list(APPEND GUISOURCES "Engine/GUI/GUIColourRect.cpp" "Engine/GUI/GUIColourRect.h")
+
+add_library(GEGL2D ${ENGINESOURCES} ${GUISOURCES})
 
 target_include_directories(GEGL2D PUBLIC "${CMAKE_CURRENT_LIST_DIR}")
 
