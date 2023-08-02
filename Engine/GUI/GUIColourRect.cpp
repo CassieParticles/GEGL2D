@@ -1,13 +1,13 @@
 #include "GUIColourRect.h"
+#include "GUIColourRect.h"
 
 #include <glad/glad.h>
-#include <glfw3.h>
 
 #include "../Program.h"
 
-GUIColourRect::GUIColourRect(glm::vec2 position, glm::vec2 size, GLFWWindow* window, glm::vec3 colour) :GUIBase(position, size, window), colour{ colour }
+GUIColourRect::GUIColourRect(glm::vec2 position, glm::vec2 size, GLFWwindow* window, glm::vec3 colour) :GUIBase(position, size, window), colour{ colour }
 {
-	renderProgram = new Program(vertexShaderCode, fragmentShaderCode, Program::sourceCode);
+	renderProgram = new Program("Engine/Shaders/GUIColourRect.vert", "Engine/Shaders/GUIColourRect.frag", Program::filePath);
 
 	glGenVertexArrays(1, &vaoId);
 	glBindVertexArray(vaoId);
@@ -44,4 +44,9 @@ void GUIColourRect::render()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vboIds[1]);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+}
+
+void GUIColourRect::setWindow(GLFWwindow* window)
+{
+	this->window = window;
 }

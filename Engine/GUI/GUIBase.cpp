@@ -1,9 +1,6 @@
 #include "GUIBase.h"
-
 #include <glad/glad.h>
-#include <glfw3.h>
-
-GUIBase::GUIBase(glm::vec2 position, glm::vec2 size, GLFWWindow* window):position{position},size{size},window{window}
+GUIBase::GUIBase(glm::vec2 position, glm::vec2 size, GLFWwindow* window):position{position},size{size},window{window}
 {
 
 }

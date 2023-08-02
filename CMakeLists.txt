@@ -31,3 +31,9 @@ target_link_libraries(GEGL2D GLAD)
 
 #Add GLM files (not compiled as a library cause it's all header files)
 target_include_directories(GEGL2D PUBLIC "${CMAKE_CURRENT_LIST_DIR}/bin/glm")
+
+add_custom_target(copyEngineShaders ALL COMMAND ${CMAKE_COMMAND} -E copy_directory 
+"${CMAKE_CURRENT_LIST_DIR}/Engine/Shaders" "${CMAKE_BINARY_DIR}/Engine/Shaders"
+COMMENT "Copy engine shaders to output file" VERBATIM)
+
+add_dependencies(GEGL2D copyEngineShaders)

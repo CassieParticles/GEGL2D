@@ -9,12 +9,12 @@
 */
 
 class Program;
-struct GLFWWindow;
+struct GLFWwindow;
 
 class GUIBase
 {
 public:
-	GUIBase(glm::vec2 position, glm::vec2 size, GLFWWindow* window);
+	GUIBase(glm::vec2 position, glm::vec2 size, GLFWwindow* window);
 	~GUIBase();
 
 	glm::vec2 position{};	//TL
@@ -26,7 +26,7 @@ public:
 protected:
 
 	Program* renderProgram{};
-	GLFWWindow* window{};
+	GLFWwindow* window{};
 
 	unsigned int vaoId{};		//VAO and 2 VBOs (position and indices)
 	unsigned int vboIds[2]{};
