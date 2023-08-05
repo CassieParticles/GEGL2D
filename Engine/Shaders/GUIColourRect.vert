@@ -5,13 +5,22 @@ layout(location=0) in vec2 vertexPosition;
 uniform vec2 position;
 uniform vec2 size;
 
+uniform vec2 relativeTo;
+uniform vec2 screenSize;
+
 void main()
 {
-	vec2 tl = vec2(position.x,position.y)/1024;	//Get the position from 0-1
-	vec2 offset = vec2(size.x*vertexPosition.x,size.y*vertexPosition.y)/1024;
 
-	tl=tl*2-1;	//rescale to be between -1 - 1
-	offset=offset*2;
+	vec2 scaledPos=position/screenSize;	//Get the position and size in 0-1 scale of the screen
+	vec2 scaledSize=size/screenSize;
 
-	gl_Position=vec4(tl+offset,0,1);
+	vec2 normRelTo=relativeTo/1024.f;	//Get the relative to position scaled between 0-1
+
+	vec2 screenPos=scaledPos+normRelTo;	//Get the top left corner position between 0-1
+	vec2 offset=vertexPosition*scaledSize;
+
+	screenPos=screenPos*2-1;	//Rescale position to be between -1 and 1
+	offset*=2;
+
+	gl_Position=vec4(screenPos+offset,0,1);
 }

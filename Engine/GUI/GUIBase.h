@@ -4,8 +4,10 @@
 
 /*
 	GUI co-ordiantes
-		Screen is a 1024x1024 area, regardless of actual screen size
-		GUI will be drawn to a texture using a frame buffer, this texture can then be drawn to the screen
+		position and size are in pixels, so they don't change when the screen changes size
+		relativeTo is a range across the screen, bottomleft is 0,0, topright is 1024,1024
+
+		Position is how many pixels away from relativeTo
 */
 
 class Program;
@@ -14,8 +16,10 @@ struct GLFWwindow;
 class GUIBase
 {
 public:
-	GUIBase(glm::vec2 position, glm::vec2 size, GLFWwindow* window);
+	GUIBase(glm::vec2 position,glm::vec2 relativeTo, glm::vec2 size, GLFWwindow* window);
 	~GUIBase();
+
+	glm::vec2 relativeTo{};	//screen is always 1024x1024 for this, position is in pixels, relative to this point
 
 	glm::vec2 position{};	//TL
 	glm::vec2 size{};
