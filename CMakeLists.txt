@@ -7,7 +7,7 @@ list(APPEND ENGINESOURCES "Engine/Program.cpp" "Engine/Program.h")
 list(APPEND ENGINESOURCES "Engine/TextureManager.cpp" "Engine/TextureManager.h")
 list(APPEND ENGINESOURCES "Engine/Timer.cpp" "Engine/Timer.h")
 
-#list(APPEND GUISOURCES "Engine/GUI/GUIManager.cpp" "Engine/GUI/GUIManager.h")		#Add the files for the GUI
+list(APPEND GUISOURCES "Engine/GUI/GUIManager.cpp" "Engine/GUI/GUIManager.h")		#Add the files for the GUI
 list(APPEND GUISOURCES "Engine/GUI/GUIBase.cpp" "Engine/GUI/GUIBase.h")					
 list(APPEND GUISOURCES "Engine/GUI/GUIColourRect.cpp" "Engine/GUI/GUIColourRect.h")
 list(APPEND GUISOURCES "Engine/GUI/GUITextureRect.cpp" "Engine/GUI/GUITextureRect.h")

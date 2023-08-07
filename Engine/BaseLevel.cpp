@@ -5,7 +5,7 @@
 
 #include "Input.h"
 
-BaseLevel::BaseLevel(GLFWwindow* window, Input* input, glm::vec4 bgColour) :window{ window }, input{ input },bgColour{ bgColour }
+BaseLevel::BaseLevel(GLFWwindow* window, Input* input, GUIManager* guiManager, glm::vec4 bgColour) :window{ window }, input{ input }, guiManager{ guiManager }, bgColour{ bgColour }
 {
 }
 
