@@ -1,10 +1,4 @@
 #include "Program.h"
-#include "Program.h"
-#include "Program.h"
-#include "Program.h"
-#include "Program.h"
-#include "Program.h"
-#include "Program.h"
 
 #include <glad/glad.h>
 #include <string>
