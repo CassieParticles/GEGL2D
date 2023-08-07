@@ -2,11 +2,15 @@
 
 layout(location=0) in vec2 vertexPosition;
 
+layout(std140) uniform windowData
+{
+	ivec2 screenSize;
+};
+
 uniform vec2 position;
 uniform vec2 size;
 
 uniform vec2 relativeTo;
-uniform vec2 screenSize;
 
 void main()
 {

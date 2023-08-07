@@ -70,7 +70,6 @@ void GUITextureRect::render()
 
 	renderProgram->setVec2("position", position);
 	renderProgram->setVec2("size", size);
-	renderProgram->setVec2("screenSize", glm::vec2{x, y});
 	renderProgram->setVec2("relativeTo", relativeTo);
 
 	renderProgram->setVec3("colour", colour);

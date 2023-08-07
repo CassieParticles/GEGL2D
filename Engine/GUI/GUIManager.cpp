@@ -1,11 +1,21 @@
 #include "GUIManager.h"
 
+#include <glad/glad.h>
+#include <glfw3.h>
+
 #include "GUIColourRect.h"
 #include "GUITextureRect.h"
 
 GUIManager::GUIManager(GLFWwindow* window):window{window}
 {
+	int x, y;
+	glfwGetWindowSize(window, &x, &y);
+	glm::ivec2 windowSize{x, y };
 
+	glGenBuffers(1, &GUIUBO);
+	glBindBuffer(GL_UNIFORM_BUFFER, GUIUBO);
+	glBufferData(GL_UNIFORM_BUFFER, sizeof(glm::ivec2), &windowSize, GL_STATIC_DRAW);
+	glBindBufferBase(GL_UNIFORM_BUFFER, 0, GUIUBO);
 }
 
 GUIManager::~GUIManager()

@@ -10,6 +10,8 @@ GUIColourRect::GUIColourRect(glm::vec2 position, glm::vec2 relativeTo, glm::vec2
 {
 	renderProgram = new Program("Engine/Shaders/GUIColourRect.vert", "Engine/Shaders/GUIColourRect.frag", Program::filePath);
 
+	renderProgram->setUniformBufferBlockBinding("windowData", 0);
+
 	glGenVertexArrays(1, &vaoId);
 	glBindVertexArray(vaoId);
 
@@ -44,7 +46,6 @@ void GUIColourRect::render()
 
 	renderProgram->setVec2("position", position);
 	renderProgram->setVec2("size", size);
-	renderProgram->setVec2("screenSize", glm::vec2{x, y});
 	renderProgram->setVec2("relativeTo", relativeTo);
 
 	renderProgram->setVec3("colour", colour);

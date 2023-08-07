@@ -4,6 +4,7 @@
 #include "Program.h"
 #include "Program.h"
 #include "Program.h"
+#include "Program.h"
 
 #include <glad/glad.h>
 #include <string>
@@ -57,7 +58,7 @@ Program::~Program()
 	for (int i = 0; i < shaderCount; i++)	//Delete all the shaders in the program
 	{
 		glDetachShader(programID,shaderIDs[i]);
-		glDeleteShader(shaderIDs[i]);
+		//glDeleteShader(shaderIDs[i]);
 	}
 	//delete the program
 	glDeleteProgram(programID);
@@ -168,6 +169,12 @@ bool Program::linkShaders()
 		std::cout << "Error linking shader code: " << '\n' << infoLog << "\n -- --------------------------------------------------- -- " << std::endl;
 		return false;
 	}
+
+	for(int i=0;i<shaderCount;i++)
+	{
+		glDeleteShader(shaderIDs[i]);
+	}
+
 	return true;
 }
 
@@ -183,3 +190,8 @@ void Program::setVec2(const char* name, glm::vec2 value) { glUniform2f(glGetUnif
 void Program::setVec3(const char* name, glm::vec3 value) { glUniform3f(glGetUniformLocation(programID, name), value.x, value.y, value.z); }
 void Program::setVec4(const char* name, glm::vec4 value) { glUniform4f(glGetUniformLocation(programID, name), value.x, value.y, value.z, value.w); }
 void Program::setMat4(const char* name, glm::mat4 value) { glUniformMatrix4fv(glGetUniformLocation(programID, name), 1, GL_FALSE, &value[0][0]); }
+
+void Program::setUniformBufferBlockBinding(const char* bufferName, unsigned int bindingPoint)
+{
+	glUniformBlockBinding(programID, glGetUniformBlockIndex(programID, bufferName), bindingPoint);
+}

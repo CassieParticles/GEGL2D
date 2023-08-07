@@ -33,6 +33,8 @@ public:
 	void setVec4(const char* name, glm::vec4 value);
 	void setMat4(const char* name, glm::mat4 value);
 
+	void setUniformBufferBlockBinding(const char* bufferName, unsigned int bindingPoint);	//Bind the uniform buffer bound to the binding point to the block binding at the bufferName
+
 	unsigned int getProgramID() { return programID; }
 private:
 	unsigned int programID;	//ID of this specific program

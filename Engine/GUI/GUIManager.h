@@ -27,4 +27,6 @@ protected:
 	GLFWwindow* window;
 
 	std::vector<GUIBase*> GUI;
+
+	unsigned int GUIUBO;
 };
