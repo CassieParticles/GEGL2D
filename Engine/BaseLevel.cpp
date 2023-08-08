@@ -20,6 +20,7 @@ BaseLevel::~BaseLevel() {}
 
 void BaseLevel::beginDraw()
 {
+	glClearColor(bgColour.r, bgColour.g, bgColour.b, bgColour.a);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 

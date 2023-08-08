@@ -8,7 +8,9 @@
 
 GUITextureRect::GUITextureRect(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, GLFWwindow* window, const std::string& textureDir, glm::vec3 colour):GUIBase{position,relativeTo,size,window},colour{colour}
 {
-	texture = TextureManager::getTexturePtr(textureDir).textureID;
+	renderProgram = new Program("Engine/Shaders/GUITextureRect.vert", "Engine/Shaders/GUITextureRect.frag", Program::filePath);
+
+	renderProgram->setUniformBufferBlockBinding("windowData", 0);
 
 	glGenVertexArrays(1, &vaoId);
 	glBindVertexArray(vaoId);
@@ -25,11 +27,15 @@ GUITextureRect::GUITextureRect(glm::vec2 position, glm::vec2 relativeTo, glm::ve
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
-	renderProgram = new Program("Engine/Shaders/GUITextureRect.vert", "Engine/Shaders/GUITextureRect.frag", Program::filePath);
+	texture = TextureManager::getTexturePtr(textureDir).textureID;
 }
 
 GUITextureRect::GUITextureRect(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, GLFWwindow* window, unsigned int textureID, glm::vec3 colour) :GUIBase{ position,relativeTo,size,window }, colour{ colour },texture { textureID }
 {
+	renderProgram = new Program("Engine/Shaders/GUITextureRect.vert", "Engine/Shaders/GUITextureRect.frag", Program::filePath);
+
+	renderProgram->setUniformBufferBlockBinding("windowData", 0);
+
 	glGenVertexArrays(1, &vaoId);
 	glBindVertexArray(vaoId);
 
@@ -45,7 +51,6 @@ GUITextureRect::GUITextureRect(glm::vec2 position, glm::vec2 relativeTo, glm::ve
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
-	renderProgram = new Program("Engine/Shaders/GUITextureRect.vert", "Engine/Shaders/GUITextureRect.frag", Program::filePath);
 }
 
 GUITextureRect::~GUITextureRect()
@@ -60,11 +65,6 @@ void GUITextureRect::render()
 
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, texture);
-
-	int x;
-	int y;
-
-	glfwGetWindowSize(window, &x, &y);
 
 	renderProgram->use();
 
