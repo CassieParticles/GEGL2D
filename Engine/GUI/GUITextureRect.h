@@ -15,6 +15,8 @@ public:
 	~GUITextureRect();
 
 	void render() override;
+	void update() override{};
+
 protected:
 	glm::vec3 colour;
 

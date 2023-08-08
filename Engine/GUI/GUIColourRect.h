@@ -10,6 +10,7 @@ public:
 	~GUIColourRect();
 
 	void render() override;
+	void update() override{};
 
 	void setWindow(GLFWwindow* window);
 protected:

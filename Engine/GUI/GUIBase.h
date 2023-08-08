@@ -25,6 +25,7 @@ public:
 	glm::vec2 size{};
 
 	virtual void render() = 0;
+	virtual void update() = 0;
 
 	bool draw{ true };
 protected:

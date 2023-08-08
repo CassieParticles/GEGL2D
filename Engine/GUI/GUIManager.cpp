@@ -2,13 +2,16 @@
 
 #include <glad/glad.h>
 #include <glfw3.h>
+#include <memory>
 
 #include "GUIColourRect.h"
 #include "GUITextureRect.h"
+#include "GUIButton.h"
+
 #include "../Program.h"
 #include "Engine/TextureManager.h"
 
-GUIManager::GUIManager(GLFWwindow* window):window{window}
+GUIManager::GUIManager(GLFWwindow* window,Input* input):window{window},input{input}
 {
 	int x, y;	//Get the window size
 	glfwGetWindowSize(window, &x, &y);
@@ -63,6 +66,18 @@ GUIManager::~GUIManager()
 	glDeleteFramebuffers(1, &frameBuffer);
 }
 
+void GUIManager::update()
+{
+	for(int i=0;i<GUI.size();i++)
+	{
+		GUIButton* button = dynamic_cast<GUIButton*>(GUI.at(i));
+		if(button!=nullptr)
+		{
+			button->update();
+		}
+	}
+}
+
 void GUIManager::render()
 {
 	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);	//Bind frame buffer
@@ -114,6 +129,14 @@ GUITextureRect* GUIManager::createTextureRect(glm::vec2 position, glm::vec2 rela
 GUITextureRect* GUIManager::createTextureRect(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, unsigned int textureID, glm::vec3 colour)
 {
 	GUITextureRect* gui = new GUITextureRect{ position,relativeTo,size,window,textureID,colour };
+	GUI.push_back(gui);
+
+	return gui;
+}
+
+GUIButton* GUIManager::createButton(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, glm::vec3 colour, std::function<void()> func)
+{
+	GUIButton* gui = new GUIButton{ position,relativeTo,size,window,colour,input,func };
 	GUI.push_back(gui);
 
 	return gui;
