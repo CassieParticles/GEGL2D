@@ -24,6 +24,10 @@ target_include_directories(GEGL2D PUBLIC "${PROJECT_BINARY_DIR}" "${PROJECT_SOUR
 add_library(GLFW STATIC IMPORTED GLOBAL)
 set_property(TARGET GLFW PROPERTY IMPORTED_LOCATION "${CMAKE_CURRENT_LIST_DIR}/bin/GLFW/lib/glfw3.lib")
 
+#Add FreeType library (compiled .lib file)
+add_library(FreeType STATIC IMPORTED GLOBAL)
+set_property(TARGET FreeType PROPERTY IMPORTED_LOCATION "${CMAKE_CURRENT_LIST_DIR}/bin/FreeType/freetyped.lib")
+
 #Add GLAD library (uncompiled .c file)
 add_library(GLAD "${CMAKE_CURRENT_LIST_DIR}/bin/GLAD/src/glad.c")
 target_include_directories(GLAD PUBLIC "${CMAKE_CURRENT_LIST_DIR}/bin/includes")
@@ -31,6 +35,7 @@ target_include_directories(GLAD PUBLIC "${CMAKE_CURRENT_LIST_DIR}/bin/includes")
 
 target_link_libraries(GEGL2D GLFW)
 target_link_libraries(GEGL2D GLAD)
+target_link_libraries(GEGL2D FreeType)
 
 #Add GLM files (not compiled as a library cause it's all header files)
 target_include_directories(GEGL2D PUBLIC "${CMAKE_CURRENT_LIST_DIR}/bin/glm")

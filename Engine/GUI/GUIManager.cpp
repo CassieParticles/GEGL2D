@@ -3,6 +3,8 @@
 #include <glad/glad.h>
 #include <glfw3.h>
 #include <memory>
+#include <iostream>
+
 
 #include "GUIColourRect.h"
 #include "GUITextureRect.h"
@@ -55,6 +57,11 @@ GUIManager::GUIManager(GLFWwindow* window,Input* input):window{window},input{inp
 	glBindVertexArray(0);
 
 	textureProgram = new Program{ "Engine/Shaders/textureRender.vert","Engine/Shaders/textureRender.frag" ,Program::filePath};
+
+	if(FT_Init_FreeType(&library))
+	{
+		std::cout << "freetype not initialised properly lol\n";
+	}
 }
 
 GUIManager::~GUIManager()

@@ -4,6 +4,8 @@
 #include <functional>
 
 #include <glm.hpp>
+#include <ft2build.h>
+#include FT_FREETYPE_H
 
 struct GLFWwindow;
 
@@ -33,6 +35,8 @@ public:
 	GUIButton* createButton(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, glm::vec3 colour, std::function<void()> func);
 
 protected:
+	FT_Library library{};
+
 	GLFWwindow* window;
 	Input* input;
 
