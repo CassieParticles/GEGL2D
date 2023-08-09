@@ -12,6 +12,7 @@ list(APPEND GUISOURCES "Engine/GUI/GUIBase.cpp" "Engine/GUI/GUIBase.h")
 list(APPEND GUISOURCES "Engine/GUI/GUIColourRect.cpp" "Engine/GUI/GUIColourRect.h")
 list(APPEND GUISOURCES "Engine/GUI/GUITextureRect.cpp" "Engine/GUI/GUITextureRect.h")
 list(APPEND GUISOURCES "Engine/GUI/GUIButton.cpp" "Engine/GUI/GUIButton.h")
+list(APPEND GUISOURCES "Engine/GUI/Font.cpp" "Engine/GUI/Font.h")
 
 add_library(GEGL2D ${ENGINESOURCES} ${GUISOURCES})
 

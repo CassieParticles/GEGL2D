@@ -6,6 +6,12 @@
 #include <iostream>
 
 
+#include <ft2build.h>
+
+#include "Font.h"
+
+#include FT_FREETYPE_H
+
 #include "GUIColourRect.h"
 #include "GUITextureRect.h"
 #include "GUIButton.h"
@@ -57,11 +63,6 @@ GUIManager::GUIManager(GLFWwindow* window,Input* input):window{window},input{inp
 	glBindVertexArray(0);
 
 	textureProgram = new Program{ "Engine/Shaders/textureRender.vert","Engine/Shaders/textureRender.frag" ,Program::filePath};
-
-	if(FT_Init_FreeType(&library))
-	{
-		std::cout << "freetype not initialised properly lol\n";
-	}
 }
 
 GUIManager::~GUIManager()
@@ -70,6 +71,11 @@ GUIManager::~GUIManager()
 	{
 		delete GUI.at(i);
 	}
+	for(int i=0;i<fonts.size();i++)
+	{
+		delete fonts.at(i);
+	}
+
 	glDeleteFramebuffers(1, &frameBuffer);
 }
 
@@ -147,4 +153,66 @@ GUIButton* GUIManager::createButton(glm::vec2 position, glm::vec2 relativeTo, gl
 	GUI.push_back(gui);
 
 	return gui;
+}
+
+Font* GUIManager::createFont(const char* filePath, int height,const char* characterSet, int characterSetSize)
+{
+	//Create and initialise the library
+	FT_Library ft;
+	if(FT_Init_FreeType(&ft))
+	{
+		std::cout << "Error in initializing library\n";
+		return nullptr;
+	}
+	//Create and initialise the face
+	FT_Face face;
+	if(FT_New_Face(ft,filePath,0,&face))
+	{
+		std::cout << "Error in creating face\n";
+		return nullptr;
+	}
+
+	FT_Set_Pixel_Sizes(face, 0, height);	//0 width means it calculates appropriate width from height
+
+	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+
+	char* charArray = new char[256];
+	character* charDataArray = new character[256];
+
+	for(unsigned char c=0;c<128;c++)
+	{
+		if(FT_Load_Char(face,c,FT_LOAD_RENDER))
+		{
+			std::cout << "Error in loading character " << c << '\n';
+			continue;
+		}
+		//Generate the texture
+		unsigned int texture;
+		glGenTextures(1, &texture);
+		glBindTexture(GL_TEXTURE_2D, texture);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, face->glyph->bitmap.width, face->glyph->bitmap.rows, 0, GL_RED, GL_UNSIGNED_BYTE, face->glyph->bitmap.buffer);
+
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+		character chr = { texture,glm::ivec2{face->glyph->bitmap.width, face->glyph->bitmap.rows},	//Store character data
+		glm::ivec2(face->glyph->bitmap_left, face->glyph->bitmap_top), face->glyph->advance.x };
+
+		charArray[c] = c;
+		charDataArray[c] = chr;
+
+		std::cout << "character "<<static_cast<int>(c)<< "laoded\n";
+	}
+
+	Font* f = new Font{ charArray,charDataArray,256 };
+
+	delete[] charArray;	//Free up arrays and freefont stuff
+	delete[] charDataArray;
+	 
+	FT_Done_Face(face);
+	FT_Done_FreeType(ft);
+
+	return f;
 }

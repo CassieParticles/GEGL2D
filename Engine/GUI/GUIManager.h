@@ -4,8 +4,6 @@
 #include <functional>
 
 #include <glm.hpp>
-#include <ft2build.h>
-#include FT_FREETYPE_H
 
 struct GLFWwindow;
 
@@ -13,6 +11,8 @@ class GUIBase;		//Forward declare all GUI elements
 class GUIColourRect;
 class GUITextureRect;
 class GUIButton;
+
+class Font;
 
 class Program;
 class Input;
@@ -28,14 +28,18 @@ public:
 	void render();
 	void update();
 
+
+
 	//Create functions for all GUI elements
 	GUIColourRect* createColourRect(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, glm::vec3 colour);
 	GUITextureRect* createTextureRect(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, const std::string& textureDir, glm::vec3 colour);
 	GUITextureRect* createTextureRect(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, unsigned int textureID, glm::vec3 colour);
 	GUIButton* createButton(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, glm::vec3 colour, std::function<void()> func);
 
+	//Generate font class
+	Font* createFont(const char* filePath, int height, const char* characterSet, int characterSetSize);
+
 protected:
-	FT_Library library{};
 
 	GLFWwindow* window;
 	Input* input;
@@ -43,6 +47,7 @@ protected:
 	glm::ivec2 windowSize;
 
 	std::vector<GUIBase*> GUI;
+	std::vector<Font*> fonts;
 
 	unsigned int GUIUBO;	//Uniform buffer for window data
 
