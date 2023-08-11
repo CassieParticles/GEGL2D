@@ -4,7 +4,7 @@
 #include "Engine/Program.h"
 #include "glad/glad.h"
 
-GUIText::GUIText(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size,GLFWwindow* window, std::string textString, Font* fontUsed,glm::vec3 colour):GUIBase(position,relativeTo,size,window),font{fontUsed},colour{colour}
+GUIText::GUIText(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size,GLFWwindow* window, std::string textString, Font* fontUsed,glm::vec3 colour, int characterLimit, int pixelLimit):GUIBase(position,relativeTo,size,window),font{fontUsed},colour{colour},characterLimit{characterLimit},pixelLimit{pixelLimit}
 {
 	renderProgram = new Program("Engine/Shaders/GUIText.vert", "Engine/Shaders/GUIText.frag",Program::filePath);
 	renderProgram->setUniformBufferBlockBinding("windowData", 0);
@@ -28,12 +28,29 @@ void GUIText::generateNewString(std::string newString)
 
 	characterArray = new character[newString.size()];
 
+	int characterCount = 0;
+	int pixelCount = 0;
+
 	for(int i=0;i< newString.size();i++)
 	{
-		characterArray[i] = font->getCharacter(newString.at(i));
+		character c= font->getCharacter(newString.at(i));	//Get the next character
+
+		if (characterLimit != -1 && characterCount + 1 >= characterLimit) { break; }	//Check if adding the new character would exceed either limit
+		if (pixelLimit != -1 && pixelCount + (c.advance >> 6) * size.x >= pixelLimit) { break; }
+
+		characterArray[i] = c;
+		characterCount++;
+		pixelCount += (characterArray[i].advance >> 6) * size.x;
+
 	}
 
-	textString = newString;
+	if(characterCount<newString.size())
+	{
+		textString = newString.substr(0, characterCount);
+	}else
+	{
+		textString = newString;
+	}
 }
 
 void GUIText::render()

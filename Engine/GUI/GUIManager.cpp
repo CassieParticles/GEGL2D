@@ -157,9 +157,9 @@ GUIButton* GUIManager::createButton(glm::vec2 position, glm::vec2 relativeTo, gl
 	return gui;
 }
 
-GUIText* GUIManager::createText(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, std::string textString, Font* fontUsed, glm::vec3 colour)
+GUIText* GUIManager::createText(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, std::string textString, Font* fontUsed, glm::vec3 colour, int characterLimit, int pixelLimit)
 {
-	GUIText* gui = new GUIText{ position,relativeTo,size,window,textString,fontUsed,colour };
+	GUIText* gui = new GUIText{ position,relativeTo,size,window,textString,fontUsed,colour,characterLimit,pixelLimit };
 	GUI.push_back(gui);
 
 	return gui;

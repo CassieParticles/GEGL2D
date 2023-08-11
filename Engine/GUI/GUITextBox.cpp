@@ -17,7 +17,7 @@ GUITextBox::GUITextBox(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size,
 	float textSize = size.y / font->getHeight();
 
 	background = new GUIColourRect(position, relativeTo, size, window, dColour);	//These 2 GUI elements aren't stored in the GUIManager, text box itself is, so it should be fine
-	text = new GUIText(position, relativeTo, { textSize,textSize }, window, "", font, { 1,1,1 });
+	text = new GUIText(position + glm::vec2{0,5}, relativeTo, { textSize,textSize }, window, "", font, { 1,1,1 },-1,size.x);
 }
 
 GUITextBox::~GUITextBox()
@@ -42,6 +42,7 @@ void GUITextBox::update()
 
 		rect collider = { {relativeToTransform + position},{size},0 };
 		selected = Collision::checkPointRect(&collider, &mousePos);
+		firstCharacter = selected;
 	}
 	if(selected)
 	{
@@ -51,6 +52,7 @@ void GUITextBox::update()
 			char c = std::toupper(acceptedCharacters.at(i));
 			if(input->getKeyPressed(c))
 			{
+				firstCharacter = { false };
 				std::string curStr = text->getString();
 				curStr += c;
 				text->generateNewString(curStr);
@@ -58,12 +60,21 @@ void GUITextBox::update()
 		}
 		if(input->getKeyPressed(GLFW_KEY_BACKSPACE))
 		{
-			std::string curStr = text->getString();
-			if(!curStr.empty())
+			
+			if(firstCharacter)
 			{
-				curStr.pop_back();
+				text->generateNewString("");
+				firstCharacter = { false };
 			}
-			text->generateNewString(curStr);
+			else
+			{
+				std::string curStr = text->getString();
+				if (!curStr.empty())
+				{
+					curStr.pop_back();
+				}
+				text->generateNewString(curStr);
+			}
 		}
 	}else
 	{

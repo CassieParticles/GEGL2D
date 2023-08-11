@@ -22,6 +22,8 @@ public:
 protected:
 	bool selected{};
 
+	bool firstCharacter{};
+
 	Input* input;
 
 	GUIColourRect* background;
