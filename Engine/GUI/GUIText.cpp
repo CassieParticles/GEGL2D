@@ -1,9 +1,12 @@
 #include "GUIText.h"
+
+#include <iostream>
+
 #include "Font.h"
 #include "Engine/Program.h"
 #include "glad/glad.h"
 
-GUIText::GUIText(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size,GLFWwindow* window, char* string, int stringLength, Font* fontUsed):GUIBase(position,relativeTo,size,window),font{fontUsed}
+GUIText::GUIText(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size,GLFWwindow* window, char* string, int stringLength, Font* fontUsed,glm::vec3 colour):GUIBase(position,relativeTo,size,window),font{fontUsed},colour{colour}
 {
 	renderProgram = new Program("Engine/Shaders/GUIText.vert", "Engine/Shaders/GUIText.frag",Program::filePath);
 	renderProgram->setUniformBufferBlockBinding("windowData", 0);
@@ -69,9 +72,11 @@ void GUIText::render()
 
 	renderProgram->use();	//use program and set non-character specific uniforms
 	renderProgram->setVec2("relativeTo", relativeTo);
+	renderProgram->setVec2("scale", size);
 
-	renderProgram->setVec3("colour", glm::vec3{1,1,1});	
+	renderProgram->setVec3("colour", colour);	
 	renderProgram->setInt("tex", 0);
+
 
 	float curXPos = position.x;
 	for(int i=0;i<stringLength;i++)
@@ -86,7 +91,7 @@ void GUIText::render()
 
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
-		curXPos += (current.advance >> 6);	//Bit shifted to get in pixels 
+		curXPos += (current.advance >> 6) * size.x;	//Bit shifted to get in pixels 
 	}
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 

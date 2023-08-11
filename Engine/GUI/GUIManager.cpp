@@ -158,9 +158,9 @@ GUIButton* GUIManager::createButton(glm::vec2 position, glm::vec2 relativeTo, gl
 	return gui;
 }
 
-GUIText* GUIManager::createText(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, char* string, int stringLength, Font* fontUsed)
+GUIText* GUIManager::createText(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, char* string, int stringLength, Font* fontUsed, glm::vec3 colour)
 {
-	GUIText* gui = new GUIText{ position,relativeTo,size,window,string,stringLength,fontUsed };
+	GUIText* gui = new GUIText{ position,relativeTo,size,window,string,stringLength,fontUsed,colour };
 	GUI.push_back(gui);
 
 	return gui;
