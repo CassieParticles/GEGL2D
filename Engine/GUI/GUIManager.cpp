@@ -7,14 +7,13 @@
 
 
 #include <ft2build.h>
-
-#include "Font.h"
-
 #include FT_FREETYPE_H
 
 #include "GUIColourRect.h"
 #include "GUITextureRect.h"
 #include "GUIButton.h"
+#include "GUIText.h"
+#include "Font.h"
 
 #include "../Program.h"
 #include "Engine/TextureManager.h"
@@ -93,6 +92,10 @@ void GUIManager::update()
 
 void GUIManager::render()
 {
+
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);	//Bind frame buffer
 
 	glClearColor(0, 0, 0, 0);	//Clear the frame buffer
@@ -155,6 +158,15 @@ GUIButton* GUIManager::createButton(glm::vec2 position, glm::vec2 relativeTo, gl
 	return gui;
 }
 
+GUIText* GUIManager::createText(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, char* string, int stringLength, Font* fontUsed)
+{
+	GUIText* gui = new GUIText{ position,relativeTo,size,window,string,stringLength,fontUsed };
+	GUI.push_back(gui);
+
+	return gui;
+}
+
+
 Font* GUIManager::createFont(const char* filePath, int height,const char* characterSet, int characterSetSize)
 {
 	//Create and initialise the library
@@ -176,14 +188,14 @@ Font* GUIManager::createFont(const char* filePath, int height,const char* charac
 
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
-	char* charArray = new char[256];
-	character* charDataArray = new character[256];
+	char* charArray = new char[characterSetSize];
+	character* charDataArray = new character[characterSetSize];
 
-	for(unsigned char c=0;c<128;c++)
+	for(int i=0;i<characterSetSize;i++)
 	{
-		if(FT_Load_Char(face,c,FT_LOAD_RENDER))
+		if(FT_Load_Char(face,characterSet[i], FT_LOAD_RENDER))
 		{
-			std::cout << "Error in loading character " << c << '\n';
+			std::cout << "Error in loading character " << characterSet[i] << '\n';
 			continue;
 		}
 		//Generate the texture
@@ -200,13 +212,11 @@ Font* GUIManager::createFont(const char* filePath, int height,const char* charac
 		character chr = { texture,glm::ivec2{face->glyph->bitmap.width, face->glyph->bitmap.rows},	//Store character data
 		glm::ivec2(face->glyph->bitmap_left, face->glyph->bitmap_top), face->glyph->advance.x };
 
-		charArray[c] = c;
-		charDataArray[c] = chr;
-
-		std::cout << "character "<<static_cast<int>(c)<< "laoded\n";
+		charArray[i] = characterSet[i];
+		charDataArray[i] = chr;
 	}
 
-	Font* f = new Font{ charArray,charDataArray,256 };
+	Font* f = new Font{ charArray,charDataArray,characterSetSize };
 
 	delete[] charArray;	//Free up arrays and freefont stuff
 	delete[] charDataArray;
@@ -216,3 +226,4 @@ Font* GUIManager::createFont(const char* filePath, int height,const char* charac
 
 	return f;
 }
+

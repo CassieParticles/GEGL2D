@@ -28,6 +28,8 @@ public:
 	virtual void update() = 0;
 
 	bool draw{ true };
+
+	void setDraw(bool draw) { this->draw = draw; }
 protected:
 
 	Program* renderProgram{};

@@ -3,6 +3,7 @@
 #include <glm.hpp>
 #include <map>
 
+class GUIText;
 
 struct character
 {
@@ -17,6 +18,8 @@ class Font
 public:
 	Font(char* chrs, character* characterData, int characterCount);
 	~Font();
+
+	character getCharacter(char c) { return characters[c]; }
 
 protected:
 	std::map<char, character> characters;
