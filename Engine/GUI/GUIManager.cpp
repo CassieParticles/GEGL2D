@@ -16,6 +16,7 @@
 #include "GUIText.h"
 #include "GUIToggleButton.h"
 #include "Font.h"
+#include "GUITextBox.h"
 
 #include "../Program.h"
 #include "Engine/TextureManager.h"
@@ -172,6 +173,14 @@ GUIToggleButton* GUIManager::createToggleButton(glm::vec2 position, glm::vec2 re
 	return gui;
 }
 
+GUITextBox* GUIManager::createTextBox(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, Font* font, glm::vec3 dColour, glm::vec3 sColour, std::string acceptedCharacters)
+{
+	GUITextBox* gui = new GUITextBox(position, relativeTo, size, window, input, font, dColour, sColour, acceptedCharacters);
+	GUI.push_back(gui);
+
+	return gui;
+}
+
 
 Font* GUIManager::createFont(const char* filePath, int height,std::string characterSet)
 {
@@ -222,7 +231,7 @@ Font* GUIManager::createFont(const char* filePath, int height,std::string charac
 		charDataArray[i] = chr;
 	}
 
-	Font* f = new Font{ charArray,charDataArray };
+	Font* f = new Font{ charArray,charDataArray,height };
 
 	delete[] charArray;	//Free up arrays and freefont stuff
 	delete[] charDataArray;

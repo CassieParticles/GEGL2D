@@ -13,6 +13,6 @@ public:
 	void update() override{};
 
 	void setWindow(GLFWwindow* window);
-protected:
 	glm::vec3 colour;
+protected:
 };

@@ -1,4 +1,6 @@
 #include "GUIBase.h"
+
+#include <iostream>
 #include <glad/glad.h>
 
 #include "../Program.h"
@@ -25,6 +27,8 @@ GUIBase::GUIBase(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, GLFWw
 
 GUIBase::~GUIBase()
 {
+	std::cout << "Called\n";
+
 	delete renderProgram;
 
 	glDeleteBuffers(2, vboIds);

@@ -2,7 +2,7 @@
 
 #include <glad/glad.h>
 
-Font::Font(std::string characterSet, character* characterData)
+Font::Font(std::string characterSet, character* characterData, int height):height{height}
 {
 	for(int i=0;i< characterSet.size();i++)	//Add the characters to the map
 	{

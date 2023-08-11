@@ -13,6 +13,7 @@ class GUIColourRect;
 class GUITextureRect;
 class GUIButton;
 class GUIToggleButton;
+class GUITextBox;
 
 class Font;
 class GUIText;
@@ -40,6 +41,7 @@ public:
 	GUIButton* createButton(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, glm::vec3 colour, std::function<void()> func);
 	GUIText* createText(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, std::string textString, Font* fontUsed, glm::vec3 colour);
 	GUIToggleButton* createToggleButton(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, std::string inactiveFilePath, std::string activeFilePath);
+	GUITextBox* createTextBox(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, Font* font, glm::vec3 dColour, glm::vec3 sColour,std::string acceptedCharacters);
 
 	//Generate font class
 	Font* createFont(const char* filePath, int height, std::string characterSet);

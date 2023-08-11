@@ -15,6 +15,8 @@ public:
 
 	void generateNewString(std::string newString);
 
+	std::string getString() { return textString; }
+
 	void render() override;
 	void update() override {};
 protected:

@@ -17,11 +17,15 @@ struct character
 class Font
 {
 public:
-	Font(std::string characterSet, character* characterData);
+	Font(std::string characterSet, character* characterData, int height);
 	~Font();
 
 	character getCharacter(char c) { return characters[c]; }
 
+	int getHeight() { return height; }
+
 protected:
 	std::map<char, character> characters;
+
+	int height;
 };
