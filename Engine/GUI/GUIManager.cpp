@@ -158,16 +158,16 @@ GUIButton* GUIManager::createButton(glm::vec2 position, glm::vec2 relativeTo, gl
 	return gui;
 }
 
-GUIText* GUIManager::createText(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, char* string, int stringLength, Font* fontUsed, glm::vec3 colour)
+GUIText* GUIManager::createText(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, std::string textString, Font* fontUsed, glm::vec3 colour)
 {
-	GUIText* gui = new GUIText{ position,relativeTo,size,window,string,stringLength,fontUsed,colour };
+	GUIText* gui = new GUIText{ position,relativeTo,size,window,textString,fontUsed,colour };
 	GUI.push_back(gui);
 
 	return gui;
 }
 
 
-Font* GUIManager::createFont(const char* filePath, int height,const char* characterSet, int characterSetSize)
+Font* GUIManager::createFont(const char* filePath, int height,std::string characterSet)
 {
 	//Create and initialise the library
 	FT_Library ft;
@@ -188,12 +188,12 @@ Font* GUIManager::createFont(const char* filePath, int height,const char* charac
 
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
-	char* charArray = new char[characterSetSize];
-	character* charDataArray = new character[characterSetSize];
+	char* charArray = new char[characterSet.size()];
+	character* charDataArray = new character[characterSet.size()];
 
-	for(int i=0;i<characterSetSize;i++)
+	for(int i=0;i<characterSet.size();i++)
 	{
-		if(FT_Load_Char(face,characterSet[i], FT_LOAD_RENDER))
+		if(FT_Load_Char(face,characterSet.at(i), FT_LOAD_RENDER))
 		{
 			std::cout << "Error in loading character " << characterSet[i] << '\n';
 			continue;
@@ -212,11 +212,11 @@ Font* GUIManager::createFont(const char* filePath, int height,const char* charac
 		character chr = { texture,glm::ivec2{face->glyph->bitmap.width, face->glyph->bitmap.rows},	//Store character data
 		glm::ivec2(face->glyph->bitmap_left, face->glyph->bitmap_top), face->glyph->advance.x };
 
-		charArray[i] = characterSet[i];
+		charArray[i] = characterSet.at(i);
 		charDataArray[i] = chr;
 	}
 
-	Font* f = new Font{ charArray,charDataArray,characterSetSize };
+	Font* f = new Font{ charArray,charDataArray };
 
 	delete[] charArray;	//Free up arrays and freefont stuff
 	delete[] charDataArray;

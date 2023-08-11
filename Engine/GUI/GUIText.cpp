@@ -1,17 +1,15 @@
 #include "GUIText.h"
 
-#include <iostream>
-
 #include "Font.h"
 #include "Engine/Program.h"
 #include "glad/glad.h"
 
-GUIText::GUIText(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size,GLFWwindow* window, char* string, int stringLength, Font* fontUsed,glm::vec3 colour):GUIBase(position,relativeTo,size,window),font{fontUsed},colour{colour}
+GUIText::GUIText(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size,GLFWwindow* window, std::string textString, Font* fontUsed,glm::vec3 colour):GUIBase(position,relativeTo,size,window),font{fontUsed},colour{colour}
 {
 	renderProgram = new Program("Engine/Shaders/GUIText.vert", "Engine/Shaders/GUIText.frag",Program::filePath);
 	renderProgram->setUniformBufferBlockBinding("windowData", 0);
 
-	generateNewString(string, stringLength);
+	generateNewString(textString);
 }
 
 GUIText::~GUIText()
@@ -19,31 +17,22 @@ GUIText::~GUIText()
 	delete[] characterArray;
 }
 
-void GUIText::generateNewString(char* newString, int newStringLength)
+void GUIText::generateNewString(std::string newString)
 {
 	//If the strings are identical, don't do anything
-	if(newStringLength==stringLength)
-	{
-		bool same{ true };
-		for(int i=0;i<stringLength;i++)
-		{
-			same = same && newString[i] == string[i];
-		}
-		if (same) { return; }
-	}
+	if (newString == textString) { return; }
 
 	//Cleanup old array (textures don't need to be deleted, since that is handled in the font)
 	if(characterArray!=nullptr){ delete[] characterArray; }
 	
 
-	characterArray = new character[newStringLength];
+	characterArray = new character[newString.size()];
 
-	for(int i=0;i<newStringLength;i++)
+	for(int i=0;i< newString.size();i++)
 	{
-		characterArray[i] = font->getCharacter(newString[i]);
+		characterArray[i] = font->getCharacter(newString.at(i));
 	}
-	string = newString;
-	stringLength = newStringLength;
+	textString = newString;
 }
 
 void GUIText::render()
@@ -79,11 +68,11 @@ void GUIText::render()
 
 
 	float curXPos = position.x;
-	for(int i=0;i<stringLength;i++)
+	for(int i=0;i<textString.length();i++)
 	{
 		const character& current = characterArray[i];
-		renderProgram->setFloat("xPos", curXPos+current.bearing.x);
-		renderProgram->setFloat("yPos", position.y-(current.size.y-current.bearing.y));
+		renderProgram->setFloat("xPos", curXPos+current.bearing.x*size.x);
+		renderProgram->setFloat("yPos", position.y-(current.size.y-current.bearing.y)*size.y);
 		renderProgram->setVec2("size", current.size);
 
 		glActiveTexture(GL_TEXTURE0);

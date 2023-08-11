@@ -2,11 +2,11 @@
 
 #include <glad/glad.h>
 
-Font::Font(char* chrs, character* characterData, int characterCount)
+Font::Font(std::string characterSet, character* characterData)
 {
-	for(int i=0;i<characterCount;i++)	//Add the characters to the map
+	for(int i=0;i< characterSet.size();i++)	//Add the characters to the map
 	{
-		characters.insert({ chrs[i],characterData[i] });
+		characters.insert({ characterSet.at(i),characterData[i]});
 	}
 }
 

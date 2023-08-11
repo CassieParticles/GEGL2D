@@ -36,10 +36,10 @@ public:
 	GUITextureRect* createTextureRect(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, const std::string& textureDir, glm::vec3 colour);
 	GUITextureRect* createTextureRect(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, unsigned int textureID, glm::vec3 colour);
 	GUIButton* createButton(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, glm::vec3 colour, std::function<void()> func);
-	GUIText* createText(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, char* string, int stringLength, Font* fontUsed, glm::vec3 colour);
+	GUIText* createText(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, std::string textString, Font* fontUsed, glm::vec3 colour);
 
 	//Generate font class
-	Font* createFont(const char* filePath, int height, const char* characterSet, int characterSetSize);
+	Font* createFont(const char* filePath, int height, std::string characterSet);
 
 
 protected:

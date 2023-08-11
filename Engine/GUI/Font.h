@@ -2,6 +2,7 @@
 
 #include <glm.hpp>
 #include <map>
+#include <string>
 
 class GUIText;
 
@@ -16,7 +17,7 @@ struct character
 class Font
 {
 public:
-	Font(char* chrs, character* characterData, int characterCount);
+	Font(std::string characterSet, character* characterData);
 	~Font();
 
 	character getCharacter(char c) { return characters[c]; }

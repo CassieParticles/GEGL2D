@@ -1,6 +1,7 @@
 #pragma once
 #include "GUIBase.h"
 #include <glm.hpp>
+#include <string>
 
 class Font;
 struct character;
@@ -8,16 +9,15 @@ struct character;
 class GUIText:public GUIBase
 {
 public:
-	GUIText(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, GLFWwindow* window, char* string, int stringLength, Font* fontUsed, glm::vec3 colour);
+	GUIText(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, GLFWwindow* window, std::string textString, Font* fontUsed, glm::vec3 colour);
 	~GUIText();
 
-	void generateNewString(char* newString, int newStringLength);
+	void generateNewString(std::string newString);
 
 	void render() override;
 	void update() override {};
 protected:
-	char* string{};
-	int stringLength{};
+	std::string textString;
 
 	Font* font;
 
