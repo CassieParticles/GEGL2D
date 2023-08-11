@@ -5,12 +5,14 @@
 
 #include <glm.hpp>
 
+
 struct GLFWwindow;
 
 class GUIBase;		//Forward declare all GUI elements
 class GUIColourRect;
 class GUITextureRect;
 class GUIButton;
+class GUIToggleButton;
 
 class Font;
 class GUIText;
@@ -37,6 +39,7 @@ public:
 	GUITextureRect* createTextureRect(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, unsigned int textureID, glm::vec3 colour);
 	GUIButton* createButton(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, glm::vec3 colour, std::function<void()> func);
 	GUIText* createText(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, std::string textString, Font* fontUsed, glm::vec3 colour);
+	GUIToggleButton* createToggleButton(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, std::string inactiveFilePath, std::string activeFilePath);
 
 	//Generate font class
 	Font* createFont(const char* filePath, int height, std::string characterSet);

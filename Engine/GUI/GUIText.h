@@ -1,4 +1,5 @@
 #pragma once
+
 #include "GUIBase.h"
 #include <glm.hpp>
 #include <string>
@@ -17,7 +18,7 @@ public:
 	void render() override;
 	void update() override {};
 protected:
-	std::string textString;
+	std::string textString{};
 
 	Font* font;
 

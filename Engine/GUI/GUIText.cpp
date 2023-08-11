@@ -32,6 +32,7 @@ void GUIText::generateNewString(std::string newString)
 	{
 		characterArray[i] = font->getCharacter(newString.at(i));
 	}
+
 	textString = newString;
 }
 
@@ -55,6 +56,8 @@ void GUIText::render()
 		Render character to screen
 		Add characterWidth to curXOffset
 	 */
+
+	if (!draw) { return; }
 
 	glBindVertexArray(vaoId);	//Bind VAO and element array buffer
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vboIds[1]);

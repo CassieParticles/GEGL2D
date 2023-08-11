@@ -1,4 +1,5 @@
 #include "GUIManager.h"
+#include "GUIManager.h"
 
 #include <glad/glad.h>
 #include <glfw3.h>
@@ -13,6 +14,7 @@
 #include "GUITextureRect.h"
 #include "GUIButton.h"
 #include "GUIText.h"
+#include "GUIToggleButton.h"
 #include "Font.h"
 
 #include "../Program.h"
@@ -82,11 +84,7 @@ void GUIManager::update()
 {
 	for(int i=0;i<GUI.size();i++)
 	{
-		GUIButton* button = dynamic_cast<GUIButton*>(GUI.at(i));
-		if(button!=nullptr)
-		{
-			button->update();
-		}
+		GUI.at(i)->update();
 	}
 }
 
@@ -161,6 +159,14 @@ GUIButton* GUIManager::createButton(glm::vec2 position, glm::vec2 relativeTo, gl
 GUIText* GUIManager::createText(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, std::string textString, Font* fontUsed, glm::vec3 colour)
 {
 	GUIText* gui = new GUIText{ position,relativeTo,size,window,textString,fontUsed,colour };
+	GUI.push_back(gui);
+
+	return gui;
+}
+
+GUIToggleButton* GUIManager::createToggleButton(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, std::string inactiveFilePath, std::string activeFilePath)
+{
+	GUIToggleButton* gui = new GUIToggleButton(position, relativeTo, size, window, input, inactiveFilePath, activeFilePath);
 	GUI.push_back(gui);
 
 	return gui;
