@@ -1,5 +1,4 @@
 #include "GUIManager.h"
-#include "GUIManager.h"
 
 #include <glad/glad.h>
 #include <glfw3.h>
@@ -10,13 +9,7 @@
 #include <ft2build.h>
 #include FT_FREETYPE_H
 
-#include "GUIColourRect.h"
-#include "GUITextureRect.h"
-#include "GUIButton.h"
-#include "GUIText.h"
-#include "GUIToggleButton.h"
-#include "Font.h"
-#include "GUITextBox.h"
+#include <Engine/GUI.h>
 
 #include "../Program.h"
 #include "Engine/TextureManager.h"

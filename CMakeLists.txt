@@ -7,15 +7,17 @@ list(APPEND ENGINESOURCES "Engine/Program.cpp" "Engine/Program.h")
 list(APPEND ENGINESOURCES "Engine/TextureManager.cpp" "Engine/TextureManager.h")
 list(APPEND ENGINESOURCES "Engine/Timer.cpp" "Engine/Timer.h")
 
-list(APPEND GUISOURCES "Engine/GUI/GUIManager.cpp" "Engine/GUI/GUIManager.h")		#Add the files for the GUI
-list(APPEND GUISOURCES "Engine/GUI/GUIBase.cpp" "Engine/GUI/GUIBase.h")					
-list(APPEND GUISOURCES "Engine/GUI/GUIColourRect.cpp" "Engine/GUI/GUIColourRect.h")
-list(APPEND GUISOURCES "Engine/GUI/GUITextureRect.cpp" "Engine/GUI/GUITextureRect.h")
-list(APPEND GUISOURCES "Engine/GUI/GUIButton.cpp" "Engine/GUI/GUIButton.h")
+list(APPEND GUISOURCES "Engine/GUI.h")											#Add the files for the GUI		
+list(APPEND GUISOURCES "Engine/GUIFD.h")
 list(APPEND GUISOURCES "Engine/GUI/Font.cpp" "Engine/GUI/Font.h")
+list(APPEND GUISOURCES "Engine/GUI/GUIBase.cpp" "Engine/GUI/GUIBase.h")					
+list(APPEND GUISOURCES "Engine/GUI/GUIButton.cpp" "Engine/GUI/GUIButton.h")
+list(APPEND GUISOURCES "Engine/GUI/GUIColourRect.cpp" "Engine/GUI/GUIColourRect.h")
+list(APPEND GUISOURCES "Engine/GUI/GUIManager.cpp" "Engine/GUI/GUIManager.h")		
 list(APPEND GUISOURCES "Engine/GUI/GUIText.cpp" "Engine/GUI/GUIText.h")
+list(APPEND GUISOURCES "Engine/GUI/GUITextBox.cpp" "Engine/GUI/GUITextBox.h")
+list(APPEND GUISOURCES "Engine/GUI/GUITextureRect.cpp" "Engine/GUI/GUITextureRect.h")
 list(APPEND GUISOURCES "Engine/GUI/GUIToggleButton.cpp" "Engine/GUI/GUIToggleButton.h")
-list(APPEND GUISOURCES "ENgine/GUI/GUITextBox.cpp" "Engine/GUI/GUITextBox.h")
 
 add_library(GEGL2D ${ENGINESOURCES} ${GUISOURCES})
 
