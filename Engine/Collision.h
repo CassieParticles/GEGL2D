@@ -9,7 +9,7 @@ struct line
 
 struct rect
 {
-	glm::vec2 tlCorner;
+	glm::vec2 blCorner;
 	glm::vec2 size;
 
 	float angle;	//Radians

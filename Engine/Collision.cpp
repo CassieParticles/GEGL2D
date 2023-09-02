@@ -40,10 +40,10 @@ namespace Collision
 		float sinAngle = sin(r->angle);
 		glm::mat2x2 rotMatrix{cosAngle, -sinAngle, sinAngle, cosAngle};	//Rotate the corners
 
-		glm::vec2 tl = r->tlCorner;
-		glm::vec2 tr = r->tlCorner + rotMatrix * glm::vec2{r->size.x, 0};
-		glm::vec2 bl = r->tlCorner + rotMatrix * glm::vec2{0, r->size.y};
-		glm::vec2 br = r->tlCorner + rotMatrix * r->size;
+		glm::vec2 tl = r->blCorner;
+		glm::vec2 tr = r->blCorner + rotMatrix * glm::vec2{r->size.x, 0};
+		glm::vec2 bl = r->blCorner + rotMatrix * glm::vec2{0, r->size.y};
+		glm::vec2 br = r->blCorner + rotMatrix * r->size;
 		
 		line edges[4] = {  
 			{tl,tr},
@@ -121,31 +121,95 @@ namespace Collision
 	{
 		if(r1->angle==0&&r2->angle==0)		//AABB vs AABB collision, much simpler collision detection method can be used
 		{
-			float minX = r1->tlCorner.x;
-			float maxX = r1->tlCorner.x+r1->size.x;
+			float minX = r1->blCorner.x;
+			float maxX = r1->blCorner.x+r1->size.x;
 
-			float minY = r1->tlCorner.y;
-			float maxY = r1->tlCorner.y + r1->size.y;
+			float minY = r1->blCorner.y;
+			float maxY = r1->blCorner.y + r1->size.y;
 
-			if(r2->tlCorner.x<minX&&r2->tlCorner.x+r2->size.x<minX)	//Rectangle is too far left
+			if(r2->blCorner.x<minX&&r2->blCorner.x+r2->size.x<minX)	//Rectangle is too far left
 			{
 				return false;
 			}
-			if(r2->tlCorner.x>maxX&&r2->tlCorner.x+r2->size.x>maxX)	//Rectangle is too far right
+			if(r2->blCorner.x>maxX&&r2->blCorner.x+r2->size.x>maxX)	//Rectangle is too far right
 			{
 				return false;
 			}
-			if(r2->tlCorner.y<minY&&r2->tlCorner.y+r2->size.y<minY)	//Rectangle is too far up
+			if(r2->blCorner.y<minY&&r2->blCorner.y+r2->size.y<minY)	//Rectangle is too far down
 			{
 				return false;
 			}
-			if(r2->tlCorner.y>maxY&&r2->tlCorner.y+r2->size.y>maxY)	//Rectangle is too far down
+			if(r2->blCorner.y>maxY&&r2->blCorner.y+r2->size.y>maxY)	//Rectangle is too far up
 			{
 				return false;
 			}
 			return true;
 		}
-		return false;	//TODO: OBB collision
+		//OBB vs OBB collision, shenanigans abound
+
+		const float cosAngleA = cos(r1->angle);	//Get cosine and sin of rotated angleA
+		const float sinAngleA = sin(r1->angle);
+
+		glm::mat2x2 rotMatrixA{cosAngleA, -sinAngleA, sinAngleA, cosAngleA};	//Rotation matrix
+
+		glm::vec2 rectACorners[4]	//bl, br, tl, tr (rotated)
+		{
+			r1->blCorner + rotMatrixA*(glm::vec2{0,0}*r1->size),
+			r1->blCorner + rotMatrixA*(glm::vec2{1,0}*r1->size),
+			r1->blCorner + rotMatrixA*(glm::vec2{0,1}*r1->size),
+			r1->blCorner + rotMatrixA*(glm::vec2{1,1}*r1->size),
+		};
+
+		const float cosAngleB = cos(r2->angle);//Get sin and cosine of rotated angle B
+		const float sinAngleB = sin(r2->angle);
+
+		glm::mat2x2 rotMatrixB{cosAngleB, -sinAngleB, sinAngleB, cosAngleB};
+
+		glm::vec2 rectBCorners[4]	//bl, br, tl, tr (rotated)
+		{
+			r2->blCorner + rotMatrixB * (glm::vec2{0,0}*r2->size),
+			r2->blCorner + rotMatrixB * (glm::vec2{1,0}*r2->size),
+			r2->blCorner + rotMatrixB * (glm::vec2{0,1}*r2->size),
+			r2->blCorner + rotMatrixB * (glm::vec2{1,1}*r2->size),
+		};
+
+		glm::vec2 lineChecks[4]	//local x,y of rect A, then local x,y of rect B
+		{
+			rectACorners[1] - rectACorners[0],
+			rectACorners[2] - rectACorners[0],
+			rectBCorners[1] - rectBCorners[0],
+			rectBCorners[2] - rectBCorners[0]
+		};
+
+		for(int i=0;i<4;i++)	//Iterate through each line
+		{
+			float minA{  999999999999999.f };	//Make the minimum and maximum arbitrarily high and low so they are overwritten
+			float maxA{ -999999999999999.f };
+			for(int A=0;A<4;A++)	//Get the largest and smallest projections
+			{
+				float proj=MathsFunctions::projectPointLineSclr(lineChecks[i], rectACorners[A]);
+				minA = std::min(minA, proj);
+				maxA = std::max(maxA, proj);
+			}
+
+			float minB{ 999999999999999.f };	//Make the minimum and maximum arbitrarily high and low so they are overwritten
+			float maxB{ -999999999999999.f };
+			for(int B=0;B<4;B++)
+			{
+				float proj = MathsFunctions::projectPointLineSclr(lineChecks[i], rectBCorners[B]);
+				minB = std::min(minB, proj);
+				maxB = std::max(maxB, proj);
+			}
+			//3 cases:
+			//minB and maxB are both smaller then minA/both larger then maxA (not intersecting) (checking for this one)
+			//minB is smaller then minA and maxB is larger then maxA (intersecting)
+			//minB/maxB is between minA & maxB (intersecting)
+			if(minB<minA&&maxB<minA || minB>maxA&&maxB>maxA)	//If both B points are same side of A, separated on the axis, according to SAT, they are not intersecting
+			{
+				return false;
+			}
+		}
+		return true;	//Must be intersecting on at least one line
 	}
 
 
@@ -156,7 +220,7 @@ namespace Collision
 		glm::mat2x2 rotMatrix{cosAngle, -sinAngle, sinAngle, cosAngle};	//Rotate the corners
 		glm::mat2x2 invRotMatrix = glm::inverse(rotMatrix);
 
-		glm::vec2 translatedPoint = *point - r->tlCorner;
+		glm::vec2 translatedPoint = *point - r->blCorner;
 		glm::vec2 rotatedPoint = invRotMatrix * translatedPoint;
 		
 		return rotatedPoint.x > 0 && rotatedPoint.x < r->size.x && rotatedPoint.y > 0 && rotatedPoint.y < r->size.y;
