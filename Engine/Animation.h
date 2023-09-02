@@ -20,7 +20,7 @@ class Animation
 {
 public:
 	Animation(const std::string& spriteSheetPath, int frameCount, Program* animationProgram, bool looping);
-	Animation(texture texture, int frameCount, Program* animationProgram, bool looping);
+	Animation(texture spriteSheet, int frameCount, Program* animationProgram, bool looping);
 	~Animation();
 
 	void setFrameTime(float frameTime) { this->frameTime = frameTime; }	//Set the time in seconds it takes to change frame
@@ -36,6 +36,8 @@ public:
 	bool getFlipped() { return flipped; }
 	void setFlipped(bool flipped) { this->flipped = flipped; }
 	void flipAnim() { flipped = 1 - flipped; }
+
+	const texture& getTexture() { return spriteSheet; }
 
 protected:
 	int flipped{};

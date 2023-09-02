@@ -26,7 +26,7 @@ Animation::Animation(const std::string& spriteSheetPath, int frameCount,Program*
 	}
 }
 
-Animation::Animation(texture texture, int frameCount, Program* animationProgram, bool looping):spriteSheet{texture}, frameCount{ frameCount }, animationProgram{ animationProgram }, looping{ looping }
+Animation::Animation(texture spriteSheet, int frameCount, Program* animationProgram, bool looping):spriteSheet{ spriteSheet }, frameCount{ frameCount }, animationProgram{ animationProgram }, looping{ looping }
 {
 	float frameWidth = 1.f / frameCount;
 	for(int i=0;i<frameCount;i++)
