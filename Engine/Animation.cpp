@@ -26,6 +26,24 @@ Animation::Animation(const std::string& spriteSheetPath, int frameCount,Program*
 	}
 }
 
+Animation::Animation(texture texture, int frameCount, Program* animationProgram, bool looping):spriteSheet{texture}, frameCount{ frameCount }, animationProgram{ animationProgram }, looping{ looping }
+{
+	float frameWidth = 1.f / frameCount;
+	for(int i=0;i<frameCount;i++)
+	{
+		float left = frameWidth * i;
+		float right = frameWidth * (i + 1);
+
+		frame f;
+		f.tl = { left,0 };
+		f.bl = { left,1 };
+		f.tr = { right,0 };
+		f.br = { right,1 };
+
+		frames.push_back(f);
+	}
+}
+
 Animation::~Animation()
 {
 }

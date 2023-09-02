@@ -20,6 +20,7 @@ class Animation
 {
 public:
 	Animation(const std::string& spriteSheetPath, int frameCount, Program* animationProgram, bool looping);
+	Animation(texture texture, int frameCount, Program* animationProgram, bool looping);
 	~Animation();
 
 	void setFrameTime(float frameTime) { this->frameTime = frameTime; }	//Set the time in seconds it takes to change frame
