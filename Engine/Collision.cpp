@@ -117,7 +117,37 @@ namespace Collision
 		return collide;
 	}
 
-	
+	bool checkRectRect(rect* r1, rect* r2)
+	{
+		if(r1->angle==0&&r2->angle==0)		//AABB vs AABB collision, much simpler collision detection method can be used
+		{
+			float minX = r1->tlCorner.x;
+			float maxX = r1->tlCorner.x+r1->size.x;
+
+			float minY = r1->tlCorner.y;
+			float maxY = r1->tlCorner.y + r1->size.y;
+
+			if(r2->tlCorner.x<minX&&r2->tlCorner.x+r2->size.x<minX)	//Rectangle is too far left
+			{
+				return false;
+			}
+			if(r2->tlCorner.x>maxX&&r2->tlCorner.x+r2->size.x>maxX)	//Rectangle is too far right
+			{
+				return false;
+			}
+			if(r2->tlCorner.y<minY&&r2->tlCorner.y+r2->size.y<minY)	//Rectangle is too far up
+			{
+				return false;
+			}
+			if(r2->tlCorner.y>maxY&&r2->tlCorner.y+r2->size.y>maxY)	//Rectangle is too far down
+			{
+				return false;
+			}
+			return true;
+		}
+		return false;	//TODO: OBB collision
+	}
+
 
 	bool checkPointRect(rect* r, glm::vec2* point)
 	{

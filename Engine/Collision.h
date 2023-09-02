@@ -22,5 +22,7 @@ namespace Collision
 	bool checkLineLine(line* lineA, line* lineB, glm::vec2* collidingPoint);	
 	bool checkLineRect(rect* r, line* l, line* collidingLine);
 
+	bool checkRectRect(rect* r1, rect* r2);
+
 	bool checkPointRect(rect* r, glm::vec2* point);
 }
