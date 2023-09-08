@@ -173,6 +173,7 @@ namespace Collision
 			r2->blCorner + rotMatrixB * (glm::vec2{1,1}*r2->size),
 		};
 
+		//Makes use of SAT (separating axis theorem) to test if the 2 OBBs are intersecting, if it can find a line between the 2 rects, they are not intersecting
 		glm::vec2 lineChecks[4]	//local x,y of rect A, then local x,y of rect B
 		{
 			rectACorners[1] - rectACorners[0],
@@ -183,7 +184,7 @@ namespace Collision
 
 		for(int i=0;i<4;i++)	//Iterate through each line
 		{
-			float minA{  999999999999999.f };	//Make the minimum and maximum arbitrarily high and low so they are overwritten
+			float minA{  999999999999999.f };	//Make the minimum and maximum arbitrarily high and low so they are overwritten immediately
 			float maxA{ -999999999999999.f };
 			for(int A=0;A<4;A++)	//Get the largest and smallest projections
 			{

@@ -183,6 +183,8 @@ void Program::setFloat(const char* name, float value) { glUniform1f(glGetUniform
 void Program::setVec2(const char* name, glm::vec2 value) { glUniform2f(glGetUniformLocation(programID, name), value.x, value.y); }
 void Program::setVec3(const char* name, glm::vec3 value) { glUniform3f(glGetUniformLocation(programID, name), value.x, value.y, value.z); }
 void Program::setVec4(const char* name, glm::vec4 value) { glUniform4f(glGetUniformLocation(programID, name), value.x, value.y, value.z, value.w); }
+
+void Program::setMat2(const char* name, glm::mat2 value) { glUniformMatrix2fv(glGetUniformLocation(programID, name), 1, GL_FALSE, &value[0][0]); }
 void Program::setMat4(const char* name, glm::mat4 value) { glUniformMatrix4fv(glGetUniformLocation(programID, name), 1, GL_FALSE, &value[0][0]); }
 
 void Program::setUniformBufferBlockBinding(const char* bufferName, unsigned int bindingPoint)

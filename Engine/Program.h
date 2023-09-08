@@ -31,6 +31,7 @@ public:
 	void setVec2(const char* name, glm::vec2 value);
 	void setVec3(const char* name, glm::vec3 value);
 	void setVec4(const char* name, glm::vec4 value);
+	void setMat2(const char* name, glm::mat2 value);
 	void setMat4(const char* name, glm::mat4 value);
 
 	void setUniformBufferBlockBinding(const char* bufferName, unsigned int bindingPoint);	//Bind the uniform buffer bound to the binding point to the block binding at the bufferName
