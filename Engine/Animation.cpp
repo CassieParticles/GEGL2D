@@ -24,6 +24,8 @@ Animation::Animation(const std::string& spriteSheetPath, int frameCount,Program*
 
 		frames.push_back(f);
 	}
+
+	frameSize = { frameWidth * spriteSheet.width,spriteSheet.height };
 }
 
 Animation::Animation(texture spriteSheet, int frameCount, Program* animationProgram, bool looping):spriteSheet{ spriteSheet }, frameCount{ frameCount }, animationProgram{ animationProgram }, looping{ looping }

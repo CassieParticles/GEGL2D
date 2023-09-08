@@ -38,6 +38,7 @@ public:
 	void flipAnim() { flipped = 1 - flipped; }
 
 	const texture& getTexture() { return spriteSheet; }
+	const glm::vec2 getFrameSize() { return frameSize; }
 
 protected:
 	int flipped{};
@@ -55,4 +56,6 @@ protected:
 
 	std::vector<frame> frames;
 	int frameCount;
+
+	glm::vec2 frameSize;
 };
