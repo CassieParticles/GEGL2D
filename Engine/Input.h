@@ -6,7 +6,7 @@ struct GLFWwindow;
 class Input
 {
 public:
-	Input(GLFWwindow* window);
+	Input();
 	~Input();
 
 	void update();
@@ -23,7 +23,6 @@ public:
 	glm::vec2 getMousePositionNormalised();
 
 protected:
-	GLFWwindow* window;
 
 	glm::vec2 mousePosition;	//The mouse position
 

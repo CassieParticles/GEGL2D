@@ -9,7 +9,7 @@ class GUIManager;
 class BaseLevel
 {
 public:
-	BaseLevel(GLFWwindow* window,Input* input,GUIManager* guiManager, glm::vec4 bgColour);	//Default constructor, ensures level has access to window, input, etc
+	BaseLevel(Input* input,GUIManager* guiManager, glm::vec4 bgColour);	//Default constructor, ensures level has access to window, input, etc
 	~BaseLevel();
 
 	virtual void openLevel();	//Functions to call when first opening and closing a level, used when multiple levels exist
@@ -19,8 +19,7 @@ public:
 	virtual void update(Timer* updateTimer)=0;
 	virtual void render(Timer* frameTimer)=0;
 protected:
-	GLFWwindow* window;	//Base data needed for every level
-	Input* input;
+	Input* input;	//Base data needed for every level
 	GUIManager* guiManager;
 
 	glm::vec4 bgColour;

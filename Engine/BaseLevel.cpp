@@ -4,8 +4,9 @@
 #include <glfw3.h>
 
 #include "Input.h"
+#include "Window.h"
 
-BaseLevel::BaseLevel(GLFWwindow* window, Input* input, GUIManager* guiManager, glm::vec4 bgColour) :window{ window }, input{ input }, guiManager{ guiManager }, bgColour{ bgColour }
+BaseLevel::BaseLevel( Input* input, GUIManager* guiManager, glm::vec4 bgColour) :input{ input }, guiManager{ guiManager }, bgColour{ bgColour }
 {
 }
 
@@ -26,5 +27,5 @@ void BaseLevel::beginDraw()
 
 void BaseLevel::endDraw()
 {
-	glfwSwapBuffers(window);	//Check and call events
+	glfwSwapBuffers(Window::getWindow());	//Check and call events
 }

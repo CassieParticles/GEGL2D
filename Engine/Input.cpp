@@ -1,8 +1,10 @@
 #include "Input.h"
 
-#include "glfw3.h"
+#include <glfw3.h>
 
-Input::Input(GLFWwindow* window):window{window}
+#include "Window.h"
+
+Input::Input():
 {
 	keyStatesCurrent = new bool[GLFW_KEY_LAST];	//Create 2 arrays with one bool for each input
 	keyStatesPrev = new bool[GLFW_KEY_LAST];
@@ -46,7 +48,7 @@ void Input::update()
 
 	for (int i = 0; i < GLFW_KEY_LAST;i++)	//Iterate through each key and overwrite keyStatesCurrent
 	{
-		keyStatesCurrent[i] = glfwGetKey(window, i);	//GLFW_PRESS=1 (true) GLFW_RELEAE=0(false) so no need to do == check
+		keyStatesCurrent[i] = glfwGetKey(Window::getWindow(), i);	//GLFW_PRESS=1 (true) GLFW_RELEAE=0(false) so no need to do == check
 	}
 
 	//This code seems familiar
@@ -56,14 +58,14 @@ void Input::update()
 
 	for (int i = 0; i < GLFW_MOUSE_BUTTON_LAST; i++)
 	{
-		mouseStatesCurrent[i] = glfwGetMouseButton(window, i);
+		mouseStatesCurrent[i] = glfwGetMouseButton(Window::getWindow(), i);
 	}
 
 	//Mouse position is gotten via pointers, so create temporary doubles to get values back from
 	double x;
 	double y;
 
-	glfwGetCursorPos(window, &x, &y);	//Get mouse position
+	glfwGetCursorPos(Window::getWindow(), &x, &y);	//Get mouse position
 	mousePosition = { x,y };
 }
 
@@ -100,6 +102,6 @@ bool Input::getMouseReleased(int mb)
 glm::vec2 Input::getMousePositionNormalised()	//Get the mouse position on the screen scaled between 0 and 1
 {
 	int x, y;
-	glfwGetWindowSize(window, &x, &y);
+	glfwGetWindowSize(Window::getWindow(), &x, &y);
 	return mousePosition / glm::vec2{x,y};
 }
