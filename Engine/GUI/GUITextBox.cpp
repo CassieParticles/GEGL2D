@@ -4,6 +4,7 @@
 
 #include "../Input.h"
 #include "../Collision.h"
+#include "../Window.h"
 
 #include <glfw3.h>
 
@@ -12,12 +13,12 @@
 #include "Font.h"
 
 
-GUITextBox::GUITextBox(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, GLFWwindow* window, Input* input, Font* font, glm::vec3 dColour, glm::vec3 sColour, std::string acceptedCharacters):GUIBase{position,relativeTo,size,window},input{input},dColour{dColour},sColour{sColour},acceptedCharacters{acceptedCharacters}
+GUITextBox::GUITextBox(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size,  Input* input, Font* font, glm::vec3 dColour, glm::vec3 sColour, std::string acceptedCharacters):GUIBase{position,relativeTo,size},input{input},dColour{dColour},sColour{sColour},acceptedCharacters{acceptedCharacters}
 {
 	float textSize = size.y / font->getHeight();
 
-	background = new GUIColourRect(position, relativeTo, size, window, dColour);	//These 2 GUI elements aren't stored in the GUIManager, text box itself is, so it should be fine
-	text = new GUIText(position + glm::vec2{0,5}, relativeTo, { textSize,textSize }, window, "", font, { 1,1,1 },-1,size.x);
+	background = new GUIColourRect(position, relativeTo, size, dColour);	//These 2 GUI elements aren't stored in the GUIManager, text box itself is, so it should be fine
+	text = new GUIText(position + glm::vec2{0,5}, relativeTo, { textSize,textSize }, "", font, { 1,1,1 },-1,size.x);
 }
 
 GUITextBox::~GUITextBox()
@@ -30,8 +31,8 @@ void GUITextBox::update()
 {
 	if(input->getMouseDown(GLFW_MOUSE_BUTTON_1))
 	{
-		int x, y;
-		glfwGetWindowSize(window, &x, &y);
+		int x = Window::getWidth();
+		int y = Window::getHeight();
 
 		glm::vec2 mousePos = input->getMousePosition();
 

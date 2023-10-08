@@ -5,9 +5,6 @@
 
 #include <glm.hpp>
 
-
-struct GLFWwindow;
-
 class GUIBase;		//Forward declare all GUI elements
 class GUIColourRect;
 class GUITextureRect;
@@ -24,10 +21,9 @@ class Input;
 class GUIManager
 {
 public:
-	GUIManager(GLFWwindow* window, Input* input);
+	GUIManager(Input* input);
 	~GUIManager();
 
-	void updateWindowSize(glm::ivec2 windowSize) { this->windowSize = windowSize; }
 
 	void render();
 	void update();
@@ -48,8 +44,6 @@ public:
 
 
 protected:
-
-	GLFWwindow* window;
 	Input* input;
 
 	glm::ivec2 windowSize;

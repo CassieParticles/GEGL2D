@@ -8,7 +8,7 @@ class Input;
 class GUIButton:public GUIColourRect
 {
 public:
-	GUIButton(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, GLFWwindow* window, glm::vec3 colour, Input* input, std::function<void()> func);
+	GUIButton(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, glm::vec3 colour, Input* input, std::function<void()> func);
 	~GUIButton();
 
 	void update() override;

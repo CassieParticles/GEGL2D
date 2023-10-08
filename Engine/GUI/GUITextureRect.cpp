@@ -6,7 +6,7 @@
 #include "../TextureManager.h"
 #include "../Program.h"
 
-GUITextureRect::GUITextureRect(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, GLFWwindow* window, const std::string& textureDir, glm::vec3 colour):GUIBase{position,relativeTo,size,window},colour{colour}
+GUITextureRect::GUITextureRect(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, const std::string& textureDir, glm::vec3 colour):GUIBase{position,relativeTo,size},colour{colour}
 {
 	renderProgram = new Program("Engine/Shaders/GUITextureRect.vert", "Engine/Shaders/GUITextureRect.frag", Program::filePath);
 
@@ -15,7 +15,7 @@ GUITextureRect::GUITextureRect(glm::vec2 position, glm::vec2 relativeTo, glm::ve
 	texture = TextureManager::getTexturePtr(textureDir).textureID;
 }
 
-GUITextureRect::GUITextureRect(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, GLFWwindow* window, unsigned int textureID, glm::vec3 colour) :GUIBase{ position,relativeTo,size,window }, colour{ colour },texture { textureID }
+GUITextureRect::GUITextureRect(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, unsigned int textureID, glm::vec3 colour) :GUIBase{ position,relativeTo,size }, colour{ colour },texture { textureID }
 {
 	renderProgram = new Program("Engine/Shaders/GUITextureRect.vert", "Engine/Shaders/GUITextureRect.frag", Program::filePath);
 

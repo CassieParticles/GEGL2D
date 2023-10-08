@@ -4,7 +4,7 @@
 #include "Engine/Program.h"
 #include "glad/glad.h"
 
-GUIText::GUIText(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size,GLFWwindow* window, std::string textString, Font* fontUsed,glm::vec3 colour, int characterLimit, int pixelLimit):GUIBase(position,relativeTo,size,window),font{fontUsed},colour{colour},characterLimit{characterLimit},pixelLimit{pixelLimit}
+GUIText::GUIText(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, std::string textString, Font* fontUsed,glm::vec3 colour, int characterLimit, int pixelLimit):GUIBase(position,relativeTo,size),font{fontUsed},colour{colour},characterLimit{characterLimit},pixelLimit{pixelLimit}
 {
 	renderProgram = new Program("Engine/Shaders/GUIText.vert", "Engine/Shaders/GUIText.frag",Program::filePath);
 	renderProgram->setUniformBufferBlockBinding("windowData", 0);

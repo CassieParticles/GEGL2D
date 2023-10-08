@@ -4,8 +4,9 @@
 
 #include "../Input.h"
 #include "../Collision.h"
+#include "../Window.h"
 
-GUIButton::GUIButton(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, GLFWwindow* window, glm::vec3 colour, Input* input, std::function<void()> func) :GUIColourRect{ position,relativeTo,size,window,colour }, input{ input }, func{ func }
+GUIButton::GUIButton(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, glm::vec3 colour, Input* input, std::function<void()> func) :GUIColourRect{ position,relativeTo,size,colour }, input{ input }, func{ func }
 {
 
 }
@@ -13,8 +14,8 @@ GUIButton::GUIButton(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, G
 void GUIButton::update()
 {
 	if (!input->getMousePressed(GLFW_MOUSE_BUTTON_1)) { return; }
-	int x, y;
-	glfwGetWindowSize(window, &x, &y);
+	int x = Window::getWidth();
+	int y = Window::getHeight();
 
 	glm::vec2 mousePos = input->getMousePosition();
 

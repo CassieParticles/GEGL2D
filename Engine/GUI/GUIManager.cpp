@@ -13,12 +13,11 @@
 
 #include "../Program.h"
 #include "Engine/TextureManager.h"
+#include "../Window.h"
 
-GUIManager::GUIManager(GLFWwindow* window,Input* input):window{window},input{input}
+GUIManager::GUIManager(Input* input):input{input}
 {
-	int x, y;	//Get the window size
-	glfwGetWindowSize(window, &x, &y);
-	windowSize={x, y };
+	windowSize={Window::getWidth(), Window::getHeight()};
 
 	glGenBuffers(1, &GUIUBO);		//Initialise the uniform buffer
 	glBindBuffer(GL_UNIFORM_BUFFER, GUIUBO);
@@ -84,6 +83,17 @@ void GUIManager::update()
 
 void GUIManager::render()
 {
+	glm::ivec2 newWindowSize = { Window::getWidth(),Window::getHeight() };	//Check if the window has been resized and update uniform buffer if so
+	std::cout << "New window size (X: " << newWindowSize.x<<" ,Y: "<<newWindowSize.y<<")\n";
+
+	if (windowSize != newWindowSize)
+	{
+		windowSize = newWindowSize;
+		glBindBuffer(GL_UNIFORM_BUFFER, GUIUBO);
+		glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(glm::ivec2), &windowSize);
+		glBindBuffer(GL_UNIFORM_BUFFER, 0);
+	}
+
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -120,7 +130,7 @@ void GUIManager::render()
 
 GUIColourRect* GUIManager::createColourRect(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, glm::vec3 colour)
 {
-	GUIColourRect* gui = new GUIColourRect{ position,relativeTo,size,window,colour };
+	GUIColourRect* gui = new GUIColourRect{ position,relativeTo,size,colour };
 	GUI.push_back(gui);
 
 	return gui;
@@ -128,7 +138,7 @@ GUIColourRect* GUIManager::createColourRect(glm::vec2 position, glm::vec2 relati
 
 GUITextureRect* GUIManager::createTextureRect(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, const std::string& textureDir, glm::vec3 colour)
 {
-	GUITextureRect* gui = new GUITextureRect{ position,relativeTo,size,window,textureDir,colour };
+	GUITextureRect* gui = new GUITextureRect{ position,relativeTo,size,textureDir,colour };
 	GUI.push_back(gui);
 
 	return gui;
@@ -136,7 +146,7 @@ GUITextureRect* GUIManager::createTextureRect(glm::vec2 position, glm::vec2 rela
 
 GUITextureRect* GUIManager::createTextureRect(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, unsigned int textureID, glm::vec3 colour)
 {
-	GUITextureRect* gui = new GUITextureRect{ position,relativeTo,size,window,textureID,colour };
+	GUITextureRect* gui = new GUITextureRect{ position,relativeTo,size,textureID,colour };
 	GUI.push_back(gui);
 
 	return gui;
@@ -144,7 +154,7 @@ GUITextureRect* GUIManager::createTextureRect(glm::vec2 position, glm::vec2 rela
 
 GUIButton* GUIManager::createButton(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, glm::vec3 colour, std::function<void()> func)
 {
-	GUIButton* gui = new GUIButton{ position,relativeTo,size,window,colour,input,func };
+	GUIButton* gui = new GUIButton{ position,relativeTo,size,colour,input,func };
 	GUI.push_back(gui);
 
 	return gui;
@@ -152,7 +162,7 @@ GUIButton* GUIManager::createButton(glm::vec2 position, glm::vec2 relativeTo, gl
 
 GUIText* GUIManager::createText(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, std::string textString, Font* fontUsed, glm::vec3 colour, int characterLimit, int pixelLimit)
 {
-	GUIText* gui = new GUIText{ position,relativeTo,size,window,textString,fontUsed,colour,characterLimit,pixelLimit };
+	GUIText* gui = new GUIText{ position,relativeTo,size,textString,fontUsed,colour,characterLimit,pixelLimit };
 	GUI.push_back(gui);
 
 	return gui;
@@ -160,7 +170,7 @@ GUIText* GUIManager::createText(glm::vec2 position, glm::vec2 relativeTo, glm::v
 
 GUIToggleButton* GUIManager::createToggleButton(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, std::string inactiveFilePath, std::string activeFilePath)
 {
-	GUIToggleButton* gui = new GUIToggleButton(position, relativeTo, size, window, input, inactiveFilePath, activeFilePath);
+	GUIToggleButton* gui = new GUIToggleButton(position, relativeTo, size, input, inactiveFilePath, activeFilePath);
 	GUI.push_back(gui);
 
 	return gui;
@@ -168,7 +178,7 @@ GUIToggleButton* GUIManager::createToggleButton(glm::vec2 position, glm::vec2 re
 
 GUITextBox* GUIManager::createTextBox(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, Font* font, glm::vec3 dColour, glm::vec3 sColour, std::string acceptedCharacters)
 {
-	GUITextBox* gui = new GUITextBox(position, relativeTo, size, window, input, font, dColour, sColour, acceptedCharacters);
+	GUITextBox* gui = new GUITextBox(position, relativeTo, size, input, font, dColour, sColour, acceptedCharacters);
 	GUI.push_back(gui);
 
 	return gui;

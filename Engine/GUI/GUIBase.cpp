@@ -5,7 +5,7 @@
 
 #include "../Program.h"
 
-GUIBase::GUIBase(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, GLFWwindow* window):position{position},relativeTo{relativeTo}, size{size}, window{window}
+GUIBase::GUIBase(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size):position{position},relativeTo{relativeTo}, size{size}
 {
 	glGenVertexArrays(1, &vaoId);
 	glBindVertexArray(vaoId);

@@ -5,8 +5,9 @@
 #include <glfw3.h>
 
 #include "../Program.h"
+#include "../Window.h"
 
-GUIColourRect::GUIColourRect(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, GLFWwindow* window, glm::vec3 colour) :GUIBase(position,relativeTo, size, window), colour{ colour }
+GUIColourRect::GUIColourRect(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, glm::vec3 colour) :GUIBase(position,relativeTo, size), colour{ colour }
 {
 	renderProgram = new Program("Engine/Shaders/GUIColourRect.vert", "Engine/Shaders/GUIColourRect.frag", Program::filePath);
 
@@ -25,10 +26,8 @@ void GUIColourRect::render()
 
 	renderProgram->use();
 
-	int x;
-	int y;
-	
-	glfwGetWindowSize(window, &x, &y);
+	int x=Window::getWidth();
+	int y=Window::getHeight();
 
 	renderProgram->setVec2("position", position);
 	renderProgram->setVec2("size", size);
@@ -39,9 +38,4 @@ void GUIColourRect::render()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vboIds[1]);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-}
-
-void GUIColourRect::setWindow(GLFWwindow* window)
-{
-	this->window = window;
 }

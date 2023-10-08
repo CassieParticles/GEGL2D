@@ -7,8 +7,9 @@
 #include "../Program.h"
 #include "../Collision.h"
 #include "../Input.h"
+#include "../Window.h"
 
-GUIToggleButton::GUIToggleButton(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, GLFWwindow* window, Input* input, std::string inactiveFilePath, std::string activeFilePath):GUIBase{position,relativeTo,size,window},input{input}
+GUIToggleButton::GUIToggleButton(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, Input* input, std::string inactiveFilePath, std::string activeFilePath):GUIBase{position,relativeTo,size},input{input}
 {
 	textures[0] = TextureManager::getTexturePtr(inactiveFilePath).textureID;
 	textures[1] = TextureManager::getTexturePtr(activeFilePath).textureID;
@@ -23,8 +24,8 @@ GUIToggleButton::~GUIToggleButton()
 void GUIToggleButton::update()
 {
 	if (!input->getMousePressed(GLFW_MOUSE_BUTTON_1)) { return; }
-	int x, y;
-	glfwGetWindowSize(window, &x, &y);
+	int x = Window::getWidth();
+	int y = Window::getHeight();
 
 	glm::vec2 mousePos = input->getMousePosition();
 

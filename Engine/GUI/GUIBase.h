@@ -16,7 +16,7 @@ struct GLFWwindow;
 class GUIBase
 {
 public:
-	GUIBase(glm::vec2 position,glm::vec2 relativeTo, glm::vec2 size, GLFWwindow* window);
+	GUIBase(glm::vec2 position,glm::vec2 relativeTo, glm::vec2 size);
 	~GUIBase();
 
 	glm::vec2 relativeTo{};	//screen is always 1024x1024 for this, position is in pixels, relative to this point
@@ -33,7 +33,7 @@ public:
 protected:
 
 	Program* renderProgram{};
-	GLFWwindow* window{};
+	
 
 	unsigned int vaoId{};		//VAO and 2 VBOs (position and indices)
 	unsigned int vboIds[2]{};

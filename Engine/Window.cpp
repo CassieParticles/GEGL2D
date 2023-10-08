@@ -13,6 +13,7 @@ bool Window::error{false};
 void Window::init(int width, int height, int versionMajor, int versionMinor,const std::string& windowName)
 {
 	Window::width = width;
+	Window::height = height;
 	glfwInit();		//Initialize GLFW for window stuff
 
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, versionMajor);	//Set the context versions to opengl 3.3
@@ -44,6 +45,7 @@ void Window::init(int width, int height, int versionMajor, int versionMinor,cons
 			glViewport(0, 0, windowWidth, windowHeight);
 			Window::setWidth(windowWidth);
 			Window::setHeight(windowHeight);
+			std::cout << "New window size (X: " << windowWidth << " ,Y: " << windowHeight << ")\n";
 		});
 
 	//Common settings for 2D games (transparency, depth testing)
@@ -51,5 +53,5 @@ void Window::init(int width, int height, int versionMajor, int versionMinor,cons
 	glEnable(GL_BLEND);	
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	glEnable(GL_DEPTH_TEST);
+	//glEnable(GL_DEPTH_TEST);
 }
