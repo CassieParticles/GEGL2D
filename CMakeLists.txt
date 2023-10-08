@@ -6,6 +6,7 @@ list(APPEND ENGINESOURCES "Engine/MathsFunctions.cpp" "Engine/MathsFunctions.h")
 list(APPEND ENGINESOURCES "Engine/Program.cpp" "Engine/Program.h")
 list(APPEND ENGINESOURCES "Engine/TextureManager.cpp" "Engine/TextureManager.h")
 list(APPEND ENGINESOURCES "Engine/Timer.cpp" "Engine/Timer.h")
+list(APPEND ENGINESOURCES "Engine/Window.cpp" "Engine/Window.h")
 
 list(APPEND GUISOURCES "Engine/GUI.h")											#Add the files for the GUI		
 list(APPEND GUISOURCES "Engine/GUIFD.h")
