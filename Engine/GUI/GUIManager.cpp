@@ -84,7 +84,6 @@ void GUIManager::update()
 void GUIManager::render()
 {
 	glm::ivec2 newWindowSize = { Window::getWidth(),Window::getHeight() };	//Check if the window has been resized and update uniform buffer if so
-	std::cout << "New window size (X: " << newWindowSize.x<<" ,Y: "<<newWindowSize.y<<")\n";
 
 	if (windowSize != newWindowSize)
 	{

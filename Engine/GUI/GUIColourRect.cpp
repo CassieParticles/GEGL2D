@@ -9,7 +9,7 @@
 
 GUIColourRect::GUIColourRect(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, glm::vec3 colour) :GUIBase(position,relativeTo, size), colour{ colour }
 {
-	renderProgram = new Program("Engine/Shaders/GUIColourRect.vert", "Engine/Shaders/GUIColourRect.frag", Program::filePath);
+	renderProgram = new Program("Engine/Shaders/GUI/GUIColourRect.vert", "Engine/Shaders/GUI/GUIColourRect.frag", Program::filePath);
 
 	renderProgram->setUniformBufferBlockBinding("windowData", 0);
 

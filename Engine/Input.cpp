@@ -1,11 +1,13 @@
 #include "Input.h"
 
 #include <glfw3.h>
+#include <iostream>
 
 #include "Window.h"
 
-Input::Input():
+Input::Input()
 {
+	std::cout << GLFW_KEY_LAST<<'\n';
 	keyStatesCurrent = new bool[GLFW_KEY_LAST];	//Create 2 arrays with one bool for each input
 	keyStatesPrev = new bool[GLFW_KEY_LAST];
 

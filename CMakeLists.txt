@@ -8,6 +8,9 @@ list(APPEND ENGINESOURCES "Engine/TextureManager.cpp" "Engine/TextureManager.h")
 list(APPEND ENGINESOURCES "Engine/Timer.cpp" "Engine/Timer.h")
 list(APPEND ENGINESOURCES "Engine/Window.cpp" "Engine/Window.h")
 
+list(APPEND ENGINESOURCES "Engine/GameObjects/GameObjects.h")	#Add the game obejcts to the ENGINESOURCES
+list(APPEND ENGINESOURCES "Engine/GameObjects/TextureSquare.cpp")
+
 list(APPEND GUISOURCES "Engine/GUI.h")											#Add the files for the GUI		
 list(APPEND GUISOURCES "Engine/GUIFD.h")
 list(APPEND GUISOURCES "Engine/GUI/Font.cpp" "Engine/GUI/Font.h")
@@ -19,6 +22,7 @@ list(APPEND GUISOURCES "Engine/GUI/GUIText.cpp" "Engine/GUI/GUIText.h")
 list(APPEND GUISOURCES "Engine/GUI/GUITextBox.cpp" "Engine/GUI/GUITextBox.h")
 list(APPEND GUISOURCES "Engine/GUI/GUITextureRect.cpp" "Engine/GUI/GUITextureRect.h")
 list(APPEND GUISOURCES "Engine/GUI/GUIToggleButton.cpp" "Engine/GUI/GUIToggleButton.h")
+
 
 add_library(GEGL2D ${ENGINESOURCES} ${GUISOURCES})
 
