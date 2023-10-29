@@ -43,10 +43,17 @@ set_property(TARGET FreeType PROPERTY IMPORTED_LOCATION "${CMAKE_CURRENT_LIST_DI
 add_library(GLAD "${CMAKE_CURRENT_LIST_DIR}/bin/GLAD/src/glad.c")
 target_include_directories(GLAD PUBLIC "${CMAKE_CURRENT_LIST_DIR}/bin/includes")
 
+#add OpenAL libraries
+add_library(OpenAL STATIC IMPORTED GLOBAL)
+set_property(TARGET OpenAL PROPERTY IMPORTED_LOCATION "${CMAKE_CURRENT_LIST_DIR}/bin/OpenAL/common.lib")
+set_property(TARGET OpenAL PROPERTY IMPORTED_LOCATION "${CMAKE_CURRENT_LIST_DIR}/bin/OpenAL/ex-common.lib")
+set_property(TARGET OpenAL PROPERTY IMPORTED_LOCATION "${CMAKE_CURRENT_LIST_DIR}/bin/OpenAL/OpenAL32.lib")
+
 
 target_link_libraries(GEGL2D GLFW)
 target_link_libraries(GEGL2D GLAD)
 target_link_libraries(GEGL2D FreeType)
+target_link_libraries(GEGL2D OpenAL)
 
 #Add GLM files (not compiled as a library cause it's all header files)
 target_include_directories(GEGL2D PUBLIC "${CMAKE_CURRENT_LIST_DIR}/bin/glm")
