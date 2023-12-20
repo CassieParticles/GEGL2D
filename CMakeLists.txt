@@ -1,6 +1,7 @@
 list(APPEND ENGINESOURCES "Engine/Animation.cpp" "Engine/Animation.h")		#Add the source files to a list
 list(APPEND ENGINESOURCES "Engine/BaseLevel.cpp" "Engine/BaseLevel.h")
 list(APPEND ENGINESOURCES "Engine/Collision.cpp" "Engine/Collision.h")
+list(APPEND ENGINESOURCES "Engine/FileManager.cpp" "Engine/FileManager.h")
 list(APPEND ENGINESOURCES "Engine/Input.cpp" "Engine/Input.h")
 list(APPEND ENGINESOURCES "Engine/MathsFunctions.cpp" "Engine/MathsFunctions.h")
 list(APPEND ENGINESOURCES "Engine/Program.cpp" "Engine/Program.h")
@@ -58,8 +59,16 @@ target_link_libraries(GEGL2D OpenAL)
 #Add GLM files (not compiled as a library cause it's all header files)
 target_include_directories(GEGL2D PUBLIC "${CMAKE_CURRENT_LIST_DIR}/bin/glm")
 
-add_custom_target(copyEngineShaders ALL COMMAND ${CMAKE_COMMAND} -E copy_directory 
-"${CMAKE_CURRENT_LIST_DIR}/Engine/Shaders" "${CMAKE_BINARY_DIR}/Engine/Shaders"
+add_custom_target(copyEngineShaders ALL 
+COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_CURRENT_LIST_DIR}/Engine/Shaders" "${CMAKE_BINARY_DIR}/Engine/Shaders"
 COMMENT "Copy engine shaders to output file" VERBATIM)
 
+
+add_custom_target(copySaveFiles ALL 
+COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_CURRENT_LIST_DIR}/saves" "${CMAKE_BINARY_DIR}/saves"	#Copy directory		
+COMMAND ${CMAKE_COMMAND} -E rm "${CMAKE_BINARY_DIR}/saves/savesInstructions.txt"					#Delete text file instructions
+COMMENT "Copy save file structure to output file" VERBATIM											#Comment
+)
+
 add_dependencies(GEGL2D copyEngineShaders)
+add_dependencies(GEGL2D copySaveFiles)
