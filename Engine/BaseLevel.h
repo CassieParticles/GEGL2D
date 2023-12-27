@@ -5,11 +5,12 @@ struct GLFWwindow;
 class Timer;
 class Input;
 class GUIManager;
+class LevelManager;
 
 class BaseLevel
 {
 public:
-	BaseLevel(Input* input,GUIManager* guiManager, glm::vec4 bgColour);	//Default constructor, ensures level has access to window, input, etc
+	BaseLevel(Input* input,GUIManager* guiManager,LevelManager* levelManager,  glm::vec4 bgColour);	//Default constructor, ensures level has access to window, input, etc
 	~BaseLevel();
 
 	virtual void openLevel();	//Functions to call when first opening and closing a level, used when multiple levels exist
@@ -21,6 +22,7 @@ public:
 protected:
 	Input* input;	//Base data needed for every level
 	GUIManager* guiManager;
+	LevelManager* levelManager;
 
 	glm::vec4 bgColour;
 

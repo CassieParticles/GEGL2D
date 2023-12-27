@@ -5,8 +5,9 @@
 
 #include "Input.h"
 #include "Window.h"
+#include "LevelManager.h"
 
-BaseLevel::BaseLevel( Input* input, GUIManager* guiManager, glm::vec4 bgColour) :input{ input }, guiManager{ guiManager }, bgColour{ bgColour }
+BaseLevel::BaseLevel(Input* input, GUIManager* guiManager, LevelManager* levelManager, glm::vec4 bgColour) :input{ input }, guiManager{ guiManager }, levelManager{ levelManager }, bgColour { bgColour }
 {
 }
 
