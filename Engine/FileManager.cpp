@@ -11,6 +11,7 @@ FileManager::~FileManager()
 {
 }
 
+
 FileManager& FileManager::getFileManager()
 {
 	static FileManager manager{};
@@ -20,7 +21,9 @@ FileManager& FileManager::getFileManager()
 
 void FileManager::writeToFile(const char* filePath, const char* data)
 {
-	std::ofstream file{filePath};
+	std::string fullPath = "saves/";
+	fullPath.append(filePath);
+	std::ofstream file{fullPath};
 	if (!file.is_open()) { return; }	//File failed to open
 
 	file << data;
@@ -30,8 +33,10 @@ void FileManager::writeToFile(const char* filePath, const char* data)
 
 std::string FileManager::readFromFile(const char* filePath)
 {
+	std::string fullPath = "saves/";
+	fullPath.append(filePath);
 	std::string data;
-	std::ifstream file{filePath};
+	std::ifstream file{fullPath};
 	if (!file.is_open()) { return ""; }
 
 	while (!file.eof())
@@ -42,3 +47,4 @@ std::string FileManager::readFromFile(const char* filePath)
 	}
 	return data;
 }
+
