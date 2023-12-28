@@ -29,6 +29,7 @@ GUITextBox::~GUITextBox()
 
 void GUITextBox::update()
 {
+	if (!draw) { return; }
 	if(input->getMouseDown(GLFW_MOUSE_BUTTON_1))
 	{
 		int x = Window::getWidth();
@@ -85,6 +86,7 @@ void GUITextBox::update()
 
 void GUITextBox::render()
 {
+	if (!draw) { return; }
 	background->render();
 	text->render();
 }

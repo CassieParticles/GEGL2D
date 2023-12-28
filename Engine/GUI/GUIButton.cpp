@@ -13,6 +13,7 @@ GUIButton::GUIButton(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, g
 
 void GUIButton::update()
 {
+	if (!draw) { return; }
 	if (!input->getMousePressed(GLFW_MOUSE_BUTTON_1)) { return; }
 	int x = Window::getWidth();
 	int y = Window::getHeight();

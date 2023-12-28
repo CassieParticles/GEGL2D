@@ -23,6 +23,7 @@ GUIToggleButton::~GUIToggleButton()
 
 void GUIToggleButton::update()
 {
+	if (!draw) { return; }
 	if (!input->getMousePressed(GLFW_MOUSE_BUTTON_1)) { return; }
 	int x = Window::getWidth();
 	int y = Window::getHeight();
@@ -44,6 +45,7 @@ void GUIToggleButton::update()
 
 void GUIToggleButton::render()
 {
+	if (!draw) { return; }
 	glBindVertexArray(vaoId);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vboIds[1]);
 
