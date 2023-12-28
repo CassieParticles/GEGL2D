@@ -5,19 +5,20 @@
 
 #include "../TextureManager.h"
 #include "../Program.h"
+#include "../BaseLevel.h"
 
-GUITextureRect::GUITextureRect(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, const std::string& textureDir, glm::vec3 colour):GUIBase{position,relativeTo,size},colour{colour}
+GUITextureRect::GUITextureRect(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, const std::string& textureDir, glm::vec3 colour, Program* renderProgram, BaseLevel* levelIn):GUIBase{position,relativeTo,size,renderProgram,levelIn},colour{colour}
 {
-	renderProgram = new Program("Engine/Shaders/GUI/GUITextureRect.vert", "Engine/Shaders/GUI/GUITextureRect.frag", Program::filePath);
+	//renderProgram = new Program("Engine/Shaders/GUI/GUITextureRect.vert", "Engine/Shaders/GUI/GUITextureRect.frag", Program::filePath);
 
 	renderProgram->setUniformBufferBlockBinding("windowData", 0);
 
 	texture = TextureManager::getTexturePtr(textureDir).textureID;
 }
 
-GUITextureRect::GUITextureRect(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, unsigned int textureID, glm::vec3 colour) :GUIBase{ position,relativeTo,size }, colour{ colour },texture { textureID }
+GUITextureRect::GUITextureRect(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, unsigned int textureID, glm::vec3 colour, Program* renderProgram, BaseLevel* levelIn) :GUIBase{ position,relativeTo,size,renderProgram,levelIn }, colour{ colour },texture { textureID }
 {
-	renderProgram = new Program("Engine/Shaders/GUI/GUITextureRect.vert", "Engine/Shaders/GUI/GUITextureRect.frag", Program::filePath);
+	//renderProgram = new Program("Engine/Shaders/GUI/GUITextureRect.vert", "Engine/Shaders/GUI/GUITextureRect.frag", Program::filePath);
 
 	renderProgram->setUniformBufferBlockBinding("windowData", 0);
 }
@@ -29,6 +30,14 @@ GUITextureRect::~GUITextureRect()
 void GUITextureRect::render()
 {
 	if (!draw) { return; }	//Don't do anything if the GUI shouldn't be drawn
+
+	if (levelIn)
+	{
+		if (!levelIn->isOpen())	//If the level the GUI is in is closed, exit early
+		{
+			return;
+		}
+	}
 
 	glBindVertexArray(vaoId);
 

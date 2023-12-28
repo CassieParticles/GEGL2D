@@ -8,8 +8,9 @@
 #include "../Collision.h"
 #include "../Input.h"
 #include "../Window.h"
+#include "../BaseLevel.h"
 
-GUIToggleButton::GUIToggleButton(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, Input* input, std::string inactiveFilePath, std::string activeFilePath):GUIBase{position,relativeTo,size},input{input}
+GUIToggleButton::GUIToggleButton(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, Input* input, std::string inactiveFilePath, std::string activeFilePath, Program* renderProgram, BaseLevel* levelIn):GUIBase{position,relativeTo,size,renderProgram,levelIn},input{input}
 {
 	textures[0] = TextureManager::getTexturePtr(inactiveFilePath).textureID;
 	textures[1] = TextureManager::getTexturePtr(activeFilePath).textureID;
@@ -24,6 +25,15 @@ GUIToggleButton::~GUIToggleButton()
 void GUIToggleButton::update()
 {
 	if (!draw) { return; }
+
+	if (levelIn)
+	{
+		if (!levelIn->isOpen())	//If the level the GUI is in is closed, exit early
+		{
+			return;
+		}
+	}
+
 	if (!input->getMousePressed(GLFW_MOUSE_BUTTON_1)) { return; }
 	int x = Window::getWidth();
 	int y = Window::getHeight();
@@ -46,6 +56,15 @@ void GUIToggleButton::update()
 void GUIToggleButton::render()
 {
 	if (!draw) { return; }
+
+	if (levelIn)
+	{
+		if (!levelIn->isOpen())	//If the level the GUI is in is closed, exit early
+		{
+			return;
+		}
+	}
+
 	glBindVertexArray(vaoId);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vboIds[1]);
 

@@ -11,7 +11,7 @@ class Input;
 class GUIToggleButton :public GUIBase
 {
 public:
-	GUIToggleButton(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, Input* input, std::string inactiveFilePath, std::string activeFilePath);
+	GUIToggleButton(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, Input* input, std::string inactiveFilePath, std::string activeFilePath, Program* renderProgram, BaseLevel* levelIn);
 	~GUIToggleButton();
 
 	bool getActive() { return active; }

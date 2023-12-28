@@ -5,6 +5,7 @@
 #include "../Input.h"
 #include "../Collision.h"
 #include "../Window.h"
+#include "../BaseLevel.h"
 
 #include <glfw3.h>
 
@@ -13,12 +14,12 @@
 #include "Font.h"
 
 
-GUITextBox::GUITextBox(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size,  Input* input, Font* font, glm::vec3 dColour, glm::vec3 sColour, std::string acceptedCharacters):GUIBase{position,relativeTo,size},input{input},dColour{dColour},sColour{sColour},acceptedCharacters{acceptedCharacters}
+GUITextBox::GUITextBox(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size,  Input* input, Font* font, glm::vec3 dColour, glm::vec3 sColour, std::string acceptedCharacters, Program* renderProgramBox, Program* renderProgramText, BaseLevel* levelIn):GUIBase{position,relativeTo,size,nullptr,levelIn},input{input},dColour{dColour},sColour{sColour},acceptedCharacters{acceptedCharacters}
 {
 	float textSize = size.y / font->getHeight();
 
-	background = new GUIColourRect(position, relativeTo, size, dColour);	//These 2 GUI elements aren't stored in the GUIManager, text box itself is, so it should be fine
-	text = new GUIText(position + glm::vec2{0,5}, relativeTo, { textSize,textSize }, "", font, { 1,1,1 },-1,size.x);
+	background = new GUIColourRect(position, relativeTo, size, dColour,renderProgramBox,levelIn);	//These 2 GUI elements aren't stored in the GUIManager, text box itself is, so it should be fine
+	text = new GUIText(position + glm::vec2{0,5}, relativeTo, { textSize,textSize }, "", font, { 1,1,1 }, renderProgramText, levelIn,-1,size.x);
 }
 
 GUITextBox::~GUITextBox()
@@ -30,6 +31,15 @@ GUITextBox::~GUITextBox()
 void GUITextBox::update()
 {
 	if (!draw) { return; }
+
+	if (levelIn)
+	{
+		if (!levelIn->isOpen())	//If the level the GUI is in is closed, exit early
+		{
+			return;
+		}
+	}
+
 	if(input->getMouseDown(GLFW_MOUSE_BUTTON_1))
 	{
 		int x = Window::getWidth();
@@ -87,6 +97,15 @@ void GUITextBox::update()
 void GUITextBox::render()
 {
 	if (!draw) { return; }
+
+	if (levelIn)
+	{
+		if (!levelIn->isOpen())	//If the level the GUI is in is closed, exit early
+		{
+			return;
+		}
+	}
+
 	background->render();
 	text->render();
 }

@@ -4,9 +4,11 @@
 #include "Engine/Program.h"
 #include "glad/glad.h"
 
-GUIText::GUIText(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, std::string textString, Font* fontUsed,glm::vec3 colour, int characterLimit, int pixelLimit):GUIBase(position,relativeTo,size),font{fontUsed},colour{colour},characterLimit{characterLimit},pixelLimit{pixelLimit}
+#include "../BaseLevel.h"
+
+GUIText::GUIText(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, std::string textString, Font* fontUsed,glm::vec3 colour, Program* renderProgram, BaseLevel* levelIn, int characterLimit, int pixelLimit):GUIBase(position,relativeTo,size,renderProgram,levelIn),font{fontUsed},colour{colour},characterLimit{characterLimit},pixelLimit{pixelLimit}
 {
-	renderProgram = new Program("Engine/Shaders/GUI/GUIText.vert", "Engine/Shaders/GUI/GUIText.frag",Program::filePath);
+	//renderProgram = new Program("Engine/Shaders/GUI/GUIText.vert", "Engine/Shaders/GUI/GUIText.frag",Program::filePath);
 	renderProgram->setUniformBufferBlockBinding("windowData", 0);
 
 	generateNewString(textString);
@@ -75,6 +77,14 @@ void GUIText::render()
 	 */
 
 	if (!draw) { return; }
+
+	if (levelIn)
+	{
+		if (!levelIn->isOpen())	//If the level the GUI is in is closed, exit early
+		{
+			return;
+		}
+	}
 
 	glBindVertexArray(vaoId);	//Bind VAO and element array buffer
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vboIds[1]);

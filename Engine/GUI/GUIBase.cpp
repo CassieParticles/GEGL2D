@@ -6,7 +6,7 @@
 #include "../Program.h"
 #include "../GameObjects/GameObjects.h"
 
-GUIBase::GUIBase(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size):position{position},relativeTo{relativeTo}, size{size}
+GUIBase::GUIBase(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, Program* renderProgram, BaseLevel* levelIn):position{position},relativeTo{relativeTo}, size{size},renderProgram{renderProgram}, levelIn{levelIn}
 {
 	GameObjects::genTextureSquare(&vaoId, vboIds + 0, vboIds + 1);	//Create data
 
@@ -15,8 +15,6 @@ GUIBase::GUIBase(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size):posit
 
 GUIBase::~GUIBase()
 {
-	delete renderProgram;
-
 	glDeleteBuffers(2, vboIds);
 	glDeleteVertexArrays(1, &vaoId);
 }

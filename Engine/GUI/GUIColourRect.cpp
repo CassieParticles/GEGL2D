@@ -6,10 +6,11 @@
 
 #include "../Program.h"
 #include "../Window.h"
+#include "../BaseLevel.h"
 
-GUIColourRect::GUIColourRect(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, glm::vec3 colour) :GUIBase(position,relativeTo, size), colour{ colour }
+GUIColourRect::GUIColourRect(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, glm::vec3 colour, Program* renderProgram, BaseLevel* levelIn) :GUIBase(position,relativeTo, size,renderProgram,levelIn), colour{ colour }
 {
-	renderProgram = new Program("Engine/Shaders/GUI/GUIColourRect.vert", "Engine/Shaders/GUI/GUIColourRect.frag", Program::filePath);
+	//renderProgram = new Program("Engine/Shaders/GUI/GUIColourRect.vert", "Engine/Shaders/GUI/GUIColourRect.frag", Program::filePath);
 
 	renderProgram->setUniformBufferBlockBinding("windowData", 0);
 
@@ -21,6 +22,14 @@ GUIColourRect::~GUIColourRect()
 
 void GUIColourRect::render()
 {
+	if (levelIn)
+	{
+		if (!levelIn->isOpen())	//If the level the GUI is in is closed, exit early
+		{
+			return;
+		}
+	}
+
 	if (!draw) { return; }
 	glBindVertexArray(vaoId);
 

@@ -11,12 +11,13 @@
 */
 
 class Program;
+class BaseLevel;
 struct GLFWwindow;
 
 class GUIBase
 {
 public:
-	GUIBase(glm::vec2 position,glm::vec2 relativeTo, glm::vec2 size);
+	GUIBase(glm::vec2 position,glm::vec2 relativeTo, glm::vec2 size,Program* renderProgram, BaseLevel* levelIn = nullptr);
 	~GUIBase();
 
 	glm::vec2 relativeTo{};	//screen is always 1024x1024 for this, position is in pixels, relative to this point
@@ -31,6 +32,7 @@ public:
 
 	void setDraw(bool draw) { this->draw = draw; }
 protected:
+	BaseLevel* levelIn;
 
 	Program* renderProgram{};
 	

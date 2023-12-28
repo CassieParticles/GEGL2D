@@ -10,7 +10,7 @@ struct character;
 class GUIText:public GUIBase
 {
 public:
-	GUIText(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, std::string textString, Font* fontUsed, glm::vec3 colour, int characterLimit=-1,int pixelLimit=-1);
+	GUIText(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, std::string textString, Font* fontUsed, glm::vec3 colour, Program* renderProgram, BaseLevel* levelIn, int characterLimit=-1,int pixelLimit=-1);
 	~GUIText();
 
 	void generateNewString(std::string newString);

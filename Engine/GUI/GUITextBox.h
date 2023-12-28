@@ -11,7 +11,7 @@ class Font;
 class GUITextBox:public GUIBase
 {
 public:
-	GUITextBox(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size,Input* input,Font* font, glm::vec3 dColour, glm::vec3 sColour, std::string acceptedCharacters);
+	GUITextBox(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size,Input* input,Font* font, glm::vec3 dColour, glm::vec3 sColour, std::string acceptedCharacters, Program* renderProgramBox,Program* renderProgramText, BaseLevel* levelIn);
 	~GUITextBox();
 
 	void update() override;

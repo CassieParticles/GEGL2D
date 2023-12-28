@@ -17,6 +17,7 @@ class GUIText;
 
 class Program;
 class Input;
+class BaseLevel;
 
 class GUIManager
 {
@@ -28,16 +29,18 @@ public:
 	void render();
 	void update();
 
-
+	Program* colourRenderProgram;	//Used by colour rect, button, text box background
+	Program* textureRenderProgram;	//Used by texture rect, toggle button
+	Program* textRenderProgram;		//Used by text, text box
 
 	//Create functions for all GUI elements
-	GUIColourRect* createColourRect(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, glm::vec3 colour);
-	GUITextureRect* createTextureRect(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, const std::string& textureDir, glm::vec3 colour);
-	GUITextureRect* createTextureRect(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, unsigned int textureID, glm::vec3 colour);
-	GUIButton* createButton(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, glm::vec3 colour, std::function<void()> func);
-	GUIText* createText(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, std::string textString, Font* fontUsed, glm::vec3 colour, int characterLimit=-1, int pixelLimit=-1);
-	GUIToggleButton* createToggleButton(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, std::string inactiveFilePath, std::string activeFilePath);
-	GUITextBox* createTextBox(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, Font* font, glm::vec3 dColour, glm::vec3 sColour,std::string acceptedCharacters);
+	GUIColourRect* createColourRect(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, glm::vec3 colour,BaseLevel* levelIn=nullptr);
+	GUITextureRect* createTextureRect(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, const std::string& textureDir, glm::vec3 colour,BaseLevel* levelIn=nullptr);
+	GUITextureRect* createTextureRect(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, unsigned int textureID, glm::vec3 colour,BaseLevel* levelIn=nullptr);
+	GUIButton* createButton(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, glm::vec3 colour, std::function<void()> func,BaseLevel* levelIn=nullptr);
+	GUIText* createText(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, std::string textString, Font* fontUsed, glm::vec3 colour, int characterLimit=-1, int pixelLimit=-1,BaseLevel* levelIn=nullptr);
+	GUIToggleButton* createToggleButton(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, std::string inactiveFilePath, std::string activeFilePath,BaseLevel* levelIn=nullptr);
+	GUITextBox* createTextBox(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, Font* font, glm::vec3 dColour, glm::vec3 sColour,std::string acceptedCharacters,BaseLevel* levelIn=nullptr);
 
 	//Generate font class
 	Font* createFont(const char* filePath, int height, std::string characterSet);

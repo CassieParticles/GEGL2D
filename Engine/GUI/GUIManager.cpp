@@ -57,6 +57,10 @@ GUIManager::GUIManager(Input* input):input{input}
 	glBindVertexArray(0);
 
 	textureProgram = new Program{ "Engine/Shaders/textureRender.vert","Engine/Shaders/textureRender.frag" ,Program::filePath};
+
+	colourRenderProgram = new Program{ "Engine/Shaders/GUI/GUIColourRect.vert","Engine/Shaders/GUI/GUIColourRect.frag",Program::filePath };
+	textureRenderProgram = new Program{ "Engine/Shaders/GUI/GUITextureRect.vert","Engine/Shaders/GUI/GUITextureRect.frag",Program::filePath };
+	textRenderProgram = new Program{ "Engine/Shaders/GUI/GUIText.vert","Engine/Shaders/GUI/GUIText.frag",Program::filePath };
 }
 
 GUIManager::~GUIManager()
@@ -127,57 +131,57 @@ void GUIManager::render()
 	glBindVertexArray(0);
 }
 
-GUIColourRect* GUIManager::createColourRect(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, glm::vec3 colour)
+GUIColourRect* GUIManager::createColourRect(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, glm::vec3 colour,BaseLevel* levelIn)
 {
-	GUIColourRect* gui = new GUIColourRect{ position,relativeTo,size,colour };
+	GUIColourRect* gui = new GUIColourRect{ position,relativeTo,size,colour,colourRenderProgram,levelIn };
 	GUI.push_back(gui);
 
 	return gui;
 }
 
-GUITextureRect* GUIManager::createTextureRect(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, const std::string& textureDir, glm::vec3 colour)
+GUITextureRect* GUIManager::createTextureRect(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, const std::string& textureDir, glm::vec3 colour, BaseLevel* levelIn)
 {
-	GUITextureRect* gui = new GUITextureRect{ position,relativeTo,size,textureDir,colour };
+	GUITextureRect* gui = new GUITextureRect{ position,relativeTo,size,textureDir,colour,textureRenderProgram,levelIn };
 	GUI.push_back(gui);
 
 	return gui;
 }
 
-GUITextureRect* GUIManager::createTextureRect(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, unsigned int textureID, glm::vec3 colour)
+GUITextureRect* GUIManager::createTextureRect(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, unsigned int textureID, glm::vec3 colour, BaseLevel* levelIn)
 {
-	GUITextureRect* gui = new GUITextureRect{ position,relativeTo,size,textureID,colour };
+	GUITextureRect* gui = new GUITextureRect{ position,relativeTo,size,textureID,colour,textureRenderProgram,levelIn };
 	GUI.push_back(gui);
 
 	return gui;
 }
 
-GUIButton* GUIManager::createButton(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, glm::vec3 colour, std::function<void()> func)
+GUIButton* GUIManager::createButton(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, glm::vec3 colour, std::function<void()> func,BaseLevel* levelIn)
 {
-	GUIButton* gui = new GUIButton{ position,relativeTo,size,colour,input,func };
+	GUIButton* gui = new GUIButton{ position,relativeTo,size,colour,input,func,colourRenderProgram,levelIn };
 	GUI.push_back(gui);
 
 	return gui;
 }
 
-GUIText* GUIManager::createText(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, std::string textString, Font* fontUsed, glm::vec3 colour, int characterLimit, int pixelLimit)
+GUIText* GUIManager::createText(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, std::string textString, Font* fontUsed, glm::vec3 colour, int characterLimit, int pixelLimit,BaseLevel* levelIn)
 {
-	GUIText* gui = new GUIText{ position,relativeTo,size,textString,fontUsed,colour,characterLimit,pixelLimit };
+	GUIText* gui = new GUIText{ position,relativeTo,size,textString,fontUsed,colour,textRenderProgram,levelIn,characterLimit,pixelLimit };
 	GUI.push_back(gui);
 
 	return gui;
 }
 
-GUIToggleButton* GUIManager::createToggleButton(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, std::string inactiveFilePath, std::string activeFilePath)
+GUIToggleButton* GUIManager::createToggleButton(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, std::string inactiveFilePath, std::string activeFilePath,BaseLevel* levelIn)
 {
-	GUIToggleButton* gui = new GUIToggleButton(position, relativeTo, size, input, inactiveFilePath, activeFilePath);
+	GUIToggleButton* gui = new GUIToggleButton(position, relativeTo, size, input, inactiveFilePath, activeFilePath,textureRenderProgram,levelIn);
 	GUI.push_back(gui);
 
 	return gui;
 }
 
-GUITextBox* GUIManager::createTextBox(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, Font* font, glm::vec3 dColour, glm::vec3 sColour, std::string acceptedCharacters)
+GUITextBox* GUIManager::createTextBox(glm::vec2 position, glm::vec2 relativeTo, glm::vec2 size, Font* font, glm::vec3 dColour, glm::vec3 sColour, std::string acceptedCharacters,BaseLevel* levelIn)
 {
-	GUITextBox* gui = new GUITextBox(position, relativeTo, size, input, font, dColour, sColour, acceptedCharacters);
+	GUITextBox* gui = new GUITextBox(position, relativeTo, size, input, font, dColour, sColour, acceptedCharacters,colourRenderProgram,textRenderProgram,levelIn);
 	GUI.push_back(gui);
 
 	return gui;

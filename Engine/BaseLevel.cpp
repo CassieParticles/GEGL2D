@@ -14,9 +14,10 @@ BaseLevel::BaseLevel(Input* input, GUIManager* guiManager, LevelManager* levelMa
 void BaseLevel::openLevel() 
 {
 	glClearColor(bgColour.r,bgColour.g,bgColour.b,bgColour.a);
+	open = true;
 }
 
-void BaseLevel::closeLevel() {}
+void BaseLevel::closeLevel() { open = false; }
 
 BaseLevel::~BaseLevel() {}
 

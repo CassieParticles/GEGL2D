@@ -19,6 +19,8 @@ public:
 	virtual void handleInput(Timer* updateTimer)=0;	//Functions called every update/frame, needed for the game
 	virtual void update(Timer* updateTimer)=0;
 	virtual void render(Timer* frameTimer)=0;
+
+	bool isOpen() { return open; }
 protected:
 	Input* input;	//Base data needed for every level
 	GUIManager* guiManager;
@@ -29,4 +31,6 @@ protected:
 	//Clear a screen with bg colour to start rendering a frame, and swap the front and back buffers to display a rendered frame
 	void beginDraw();	
 	void endDraw();
+
+	bool open{};
 };
