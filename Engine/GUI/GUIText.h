@@ -17,6 +17,8 @@ public:
 
 	std::string getString() { return textString; }
 
+	void setColour(glm::vec3 colour) { this->colour = colour; }
+
 	void render() override;
 	void update() override {};
 protected:
